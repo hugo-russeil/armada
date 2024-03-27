@@ -1,0 +1,35 @@
+#include "submarine.hpp"
+
+Submarine::Submarine(Vector2 position, int team) : Ship(position, team) {
+    this->sprite = LoadTexture("assets/gfx/submarine.png");
+    this->dimensions = Vector2{this->sprite.width, this->sprite.height};
+    this->position = position;
+    this->targetPosition = position;
+    this->team = team;
+    this->velocity = Vector2{0, 0};
+    this->rotation = 0;
+    this->hp = 50;
+    this->maxHp = 50;
+    this->fuel = 100;
+
+    this->hasDeckBattery = false;
+    this->deckBatteryDamage = 0;
+
+    this->hasAAGun = false;
+    this->AAGunDamage = 0;
+
+    this->hasTorpedo = true;
+    this->torpedoDamage = 20;
+
+    this->hasDepthCharge = false;
+    this->depthChargeDamage = 0;
+}
+
+Submarine::~Submarine() {
+    
+}
+
+void Submarine::Draw() {
+    Vector2 drawPosition = { this->position.x - this->sprite.width / 2, this->position.y - this->sprite.height / 2 };
+    DrawTextureEx(this->sprite, drawPosition, this->rotation, 1, WHITE);
+}
