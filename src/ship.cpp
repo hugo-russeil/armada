@@ -26,18 +26,12 @@ void Ship::IndexShip(){ // add this ship to the ships array
 }
 
 void Ship::Update(){
-    Move();
     Rotate();
+    Move();
 }
 
 void Ship::Draw(){
-    if(team == 1){
-        DrawRectangle(position.x, position.y, 50, 50, BLUE);
-    }
-    else{
-        DrawRectangle(position.x, position.y, 50, 50, RED);
-    }
-    //DrawTexture(texture, position.x, position.y, WHITE);
+    
 }
 
 void Ship::SetTargetPosition(Vector2 targetPosition){
