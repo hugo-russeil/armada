@@ -4,6 +4,7 @@ extern "C" {
 
 #include "raylib.h"
 #include "input.hpp"
+#include "debug.hpp"
 #include "ship.hpp"
 #include <iostream>
 
@@ -52,4 +53,8 @@ void handleInput() {
     }
 
     camera.zoom = newZoom;
+
+    if (IsKeyPressed(KEY_GRAVE)) {
+        debug = !debug;
+    }
 }
