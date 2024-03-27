@@ -28,6 +28,7 @@ void Ship::IndexShip(){ // add this ship to the ships array
 void Ship::Update(){
     Rotate();
     Move();
+    Ship target = isEnemyNear();
 }
 
 void Ship::Draw(){
@@ -96,8 +97,14 @@ Ship Ship::isEnemyNear(){
             }
         }
     }
-
-    return *nearestEnemy;
+    if(nearestDistance < 100){
+        //printf("Enemy is near\n"); // I'm a C developer alright ?
+        return *nearestEnemy;
+    }
+    else{
+        //printf("No enemy is near\n");
+        return *this; // return itself if no enemy is near
+    }
 }
 
 bool Ship::isPointInside(Vector2 point, Camera2D camera) {
