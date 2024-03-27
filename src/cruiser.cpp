@@ -30,6 +30,10 @@ Cruiser::~Cruiser() {
 }
 
 void Cruiser::Draw() {
-    Vector2 drawPosition = { this->position.x - this->sprite.width / 2, this->position.y - this->sprite.height / 2 };
-    DrawTextureEx(this->sprite, drawPosition, this->rotation, 1, WHITE);
+    Vector2 drawPosition = this->position;
+    Vector2 origin = { this->sprite.width / 2, this->sprite.height / 2 };
+    Rectangle sourceRec = { 0.0f, 0.0f, (float)this->sprite.width, (float)this->sprite.height };
+    Rectangle destRec = { drawPosition.x, drawPosition.y, (float)this->sprite.width, (float)this->sprite.height };
+    float rotationInDegrees = this->rotation +180;
+    DrawTexturePro(this->sprite, sourceRec, destRec, origin, rotationInDegrees, WHITE);
 }
