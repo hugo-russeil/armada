@@ -2,7 +2,7 @@
 
 Destroyer::Destroyer(Vector2 position, int team) : Ship(position, team) {
     this->sprite = LoadTexture("assets/gfx/destroyer.png");
-    this->dimensions = Vector2{this->sprite.width, this->sprite.height};
+    this->dimensions = Vector2{static_cast<float>(this->sprite.width), static_cast<float>(this->sprite.height)};
     this->position = position;
     this->targetPosition = position;
     this->velocity = Vector2{0, 0};
@@ -30,7 +30,7 @@ Destroyer::~Destroyer() {
 
 void Destroyer::Draw() {
     Vector2 drawPosition = this->position;
-    Vector2 origin = { this->sprite.width / 2, this->sprite.height / 2 };
+    Vector2 origin = { static_cast<float>(this->sprite.width) / 2.0f, static_cast<float>(this->sprite.height) / 2.0f };
     Rectangle sourceRec = { 0.0f, 0.0f, (float)this->sprite.width, (float)this->sprite.height };
     Rectangle destRec = { drawPosition.x, drawPosition.y, (float)this->sprite.width, (float)this->sprite.height };
     float rotationInDegrees = this->rotation +180;

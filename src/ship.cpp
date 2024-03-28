@@ -3,6 +3,11 @@
 #include "raylib.h"
 #include "raymath.h"
 
+#include "projectile.hpp"
+#include "shell.hpp"
+
+#include "submarine.hpp"
+
 #include <iostream>
 
 Ship::Ship(Vector2 position, int team) {
@@ -34,11 +39,6 @@ void Ship::Update(){
 void Ship::Draw(){
     
 }
-
-void Ship::SetTargetPosition(Vector2 targetPosition){
-            this->targetPosition = targetPosition;
-}
-
 
 void Ship::Move(float deltaTime){
     Vector2 direction = Vector2Subtract(targetPosition, position);
@@ -85,10 +85,16 @@ void Ship::Rotate(float deltaTime){
     }
 }
 
-void Ship::Shoot(Ship target){
+void Ship::Shoot(Ship* target){
+    static int shootCooldown = 0;
     // Shoot deck battery
-    if(hasDeckBattery){
-        // Shoot deck battery
+    if(hasDeckBattery && dynamic_cast<Submarine*>(target) == nullptr){ // A deck battery would be ineffective against a submarine (source : i said so)
+        if(shootCooldown > 0){
+            shootCooldown--;
+            return;
+        }
+        Shell* shell = new Shell(position, target->position, deckBatteryDamage, this);
+        shootCooldown = 100;
     }
 
     // Shoot AA gun
@@ -122,6 +128,7 @@ Ship Ship::isEnemyNear(){
     }
     if(nearestDistance < 100){
         //printf("Enemy is near\n"); // I'm a C developer alright ?
+        Shoot(nearestEnemy);
         return *nearestEnemy;
     }
     else{
@@ -150,6 +157,22 @@ bool Ship::isPointInside(Vector2 point, Camera2D camera) {
     return CheckCollisionPointRec(point, Rectangle{recPosition.x, recPosition.y, dimensions.x, dimensions.y});
 }
 
+// ========== Setters ==========
+
+void Ship::SetTargetPosition(Vector2 targetPosition){
+    this->targetPosition = targetPosition;
+}
+
+void Ship::SetRotation(float rotation){
+    this->rotation = rotation;
+}
+
+void Ship::SetHp(int hp){
+    this->hp = hp;
+}
+
+// ========== Getters ==========
+
 Vector2 Ship::GetPosition(){
     return position;
 }
@@ -158,6 +181,10 @@ Vector2 Ship::GetTargetPosition(){
 }
 Vector2 Ship::GetDimensions(){
     return dimensions;
+}
+
+int Ship::GetHp(){
+    return hp;
 }
 
 float Ship::GetRotation(){

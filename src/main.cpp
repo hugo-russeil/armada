@@ -7,6 +7,7 @@ extern "C" {
 #include "input.hpp"
 #include "debug.hpp"
 #include "mainMenu.hpp"
+#include "projectile.hpp"
 
 // Include the ship classes
 #include "battleship.hpp"
@@ -28,6 +29,9 @@ Camera2D camera;
 
 Ship* ships[10] = {nullptr};
 int shipCount = 0;
+
+Projectile* projectiles[25] = {nullptr};
+int projectileCount = 0;
 
 bool debug = false;
 
@@ -59,18 +63,23 @@ int main() {
 
     // Team 2 (Red)
     Cruiser* redCruiser = new Cruiser(Vector2{200, 800}, 2);
+    redCruiser->SetRotation(180.0f);
     redCruiser->IndexShip();
 
     Destroyer* redDestroyer = new Destroyer(Vector2{300, 800}, 2);
+    redDestroyer->SetRotation(180.0f);
     redDestroyer->IndexShip();
 
     Battleship* redBattleship = new Battleship(Vector2{400, 800}, 2);
+    redBattleship->SetRotation(180.0f);
     redBattleship->IndexShip();
 
     // Carrier* redCarrier = new Carrier(Vector2{500, 800}, 2);
+    // redCarrier->SetRotation(180.0f);
     // redCarrier->IndexShip();
 
     Submarine* redSubmarine = new Submarine(Vector2{600, 800}, 2);
+    redSubmarine->SetRotation(180.0f);
     redSubmarine->IndexShip();
 
     while (!WindowShouldClose()){
@@ -91,6 +100,24 @@ int main() {
                             ships[i]->Update();
                             ships[i]->Draw();
                         }
+                        for(int i = 0; i < projectileCount; i++){
+                            Projectile* projectile = projectiles[i];
+                            if(projectile != nullptr && !projectile->toBeDestroyed){
+                                projectile->Update();
+                                if(projectile != nullptr && !projectile->toBeDestroyed){
+                                    projectile->Draw();
+                                    if(projectile != nullptr && projectile->hasHitShip()){
+                                        projectile->toBeDestroyed = true;
+                                    }
+                                }
+                            }
+                        }
+                        for(int i = 0; i < projectileCount; i++){
+                            if(projectiles[i] != nullptr && projectiles[i]->toBeDestroyed){
+                                projectiles[i]->DestroyProjectiles();
+                            }
+                        }
+                        
                         if(debug) displayShipsOutlines();
 
                     EndMode2D();

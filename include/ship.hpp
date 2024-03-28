@@ -15,15 +15,18 @@ class Ship {
         virtual void Move(float deltaTime);
         virtual void Rotate(float deltaTime);
         virtual Ship isEnemyNear(); // returns the nearest enemy ship
-        virtual void Shoot(Ship target);
+        virtual void Shoot(Ship* target);
 
         bool isPointInside(Vector2 point, Camera2D camera);
 
         void SetTargetPosition(Vector2 targetPosition);
+        void SetRotation(float rotation);
+        void SetHp(int hp);
 
         Vector2 GetPosition();
         Vector2 GetTargetPosition();
         Vector2 GetDimensions();
+        int GetHp();
         float GetRotation();
         
     protected:
