@@ -12,8 +12,8 @@ class Ship {
         virtual void IndexShip();
         virtual void Update();
         virtual void Draw();
-        virtual void Move();
-        virtual void Rotate();
+        virtual void Move(float deltaTime);
+        virtual void Rotate(float deltaTime);
         virtual Ship isEnemyNear(); // returns the nearest enemy ship
         virtual void Shoot(Ship target);
 
@@ -22,6 +22,7 @@ class Ship {
         void SetTargetPosition(Vector2 targetPosition);
 
         Vector2 GetPosition();
+        Vector2 GetTargetPosition();
         Vector2 GetDimensions();
         float GetRotation();
         
@@ -52,5 +53,6 @@ class Ship {
 
 extern Ship* ships[10];
 extern int shipCount;
+extern Ship* selectedShip;
 
 #endif // SHIP_HPP

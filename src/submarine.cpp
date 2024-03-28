@@ -36,4 +36,8 @@ void Submarine::Draw() {
     Rectangle destRec = { drawPosition.x, drawPosition.y, (float)this->sprite.width, (float)this->sprite.height };
     float rotationInDegrees = this->rotation +180;
     DrawTexturePro(this->sprite, sourceRec, destRec, origin, rotationInDegrees, WHITE);
+
+    if (this == selectedShip) {
+        DrawLineV(this->position, this->targetPosition, YELLOW);
+    }
 }

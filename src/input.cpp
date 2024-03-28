@@ -8,11 +8,12 @@ extern "C" {
 #include "ship.hpp"
 #include <iostream>
 
-static Ship* selectedShip = nullptr;
+Ship* selectedShip = nullptr;
 
 void handleInput() {
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        selectedShip = nullptr;
         Vector2 mousePosition = GetMousePosition();
         Vector2 worldPoint;
         worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
@@ -33,7 +34,6 @@ void handleInput() {
         worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
         selectedShip->SetTargetPosition(worldPoint);
         std::cout << "Set target position for ship: " << selectedShip << std::endl;
-        selectedShip = nullptr; // Deselect the ship after setting the target
     }
 
     Vector2 mouseDelta = GetMouseDelta();
@@ -56,5 +56,11 @@ void handleInput() {
 
     if (IsKeyPressed(KEY_GRAVE)) {
         debug = !debug;
+    }
+
+    if(selectedShip != nullptr){
+        if (IsKeyPressed(KEY_H)) {
+            selectedShip->SetTargetPosition(selectedShip->GetPosition());
+        }
     }
 }

@@ -26,8 +26,8 @@ void Ship::IndexShip(){ // add this ship to the ships array
 }
 
 void Ship::Update(){
-    Rotate();
-    Move();
+    Rotate(GetFrameTime());
+    Move(GetFrameTime());
     Ship target = isEnemyNear();
 }
 
@@ -40,25 +40,48 @@ void Ship::SetTargetPosition(Vector2 targetPosition){
 }
 
 
-void Ship::Move(){
+void Ship::Move(float deltaTime){
     Vector2 direction = Vector2Subtract(targetPosition, position);
     float distance = Vector2Length(direction);
 
     if(distance > 10.0f){ // 10.0f is the threshold value for the ship to stop moving
-        direction = Vector2Normalize(direction);
-        velocity = Vector2Scale(direction, 5);
-        position = Vector2Add(position, velocity);
+        float speed = 10.0f;
+        float rotationInRadians = (rotation + 90) * DEG2RAD; // adjust rotation and convert to radians
+        velocity.x = cos(rotationInRadians) * speed;
+        velocity.y = sin(rotationInRadians) * speed;
+
+        // Update position based on velocity and deltaTime
+        position.x += velocity.x * deltaTime;
+        position.y += velocity.y * deltaTime;
     }
     else{
-        position = targetPosition;
+        targetPosition = position;
         velocity = {0, 0};
     }
 }
 
-void Ship::Rotate(){
+void Ship::Rotate(float deltaTime){
     if(position.x != targetPosition.x || position.y != targetPosition.y){
         Vector2 direction = Vector2Subtract(targetPosition, position);
-        rotation = (atan2(direction.y, direction.x) * RAD2DEG) - 90.0f;
+        float targetRotation = atan2(direction.y, direction.x) * RAD2DEG - 90.0f;
+
+        // Normalize targetRotation and rotation to the range of 0 to 360
+        targetRotation = fmod(targetRotation + 360.0f, 360.0f);
+        rotation = fmod(rotation + 360.0f, 360.0f);
+
+        float rotationSpeed = 20.0f; // in degrees per second
+        float difference = targetRotation - rotation;
+
+        // Normalize difference to the range of -180 to 180
+        difference = fmod(difference + 540.0f, 360.0f) - 180.0f;
+
+        float step = rotationSpeed * deltaTime;
+
+        if (abs(difference) < step) {
+            rotation = targetRotation;
+        } else {
+            rotation += copysign(step, difference);
+        }
     }
 }
 
@@ -129,6 +152,9 @@ bool Ship::isPointInside(Vector2 point, Camera2D camera) {
 
 Vector2 Ship::GetPosition(){
     return position;
+}
+Vector2 Ship::GetTargetPosition(){
+    return targetPosition;
 }
 Vector2 Ship::GetDimensions(){
     return dimensions;
