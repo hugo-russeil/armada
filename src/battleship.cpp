@@ -17,7 +17,7 @@ Battleship::Battleship(Vector2 position, int team) : Ship(position, team) {
     this->deckBatteryDamage = 20;
 
     this->hasAAGun = true;
-    this->AAGunDamage = 15;
+    this->AAGunDamage = 10;
 
     this->hasTorpedo = false;
     this->torpedoDamage = 0;
