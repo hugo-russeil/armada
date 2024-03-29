@@ -27,7 +27,10 @@ class Ship {
         Vector2 GetTargetPosition();
         Vector2 GetDimensions();
         int GetHp();
+        int GetMaxHp();
+        int GetFuel();
         float GetRotation();
+        bool active = true;
         
     protected:
         Texture2D sprite;
@@ -40,6 +43,7 @@ class Ship {
         int hp;
         int maxHp;
         int fuel;
+        int maxFuel;
 
         bool hasDeckBattery;
         int deckBatteryDamage;

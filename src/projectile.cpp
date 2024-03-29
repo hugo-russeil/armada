@@ -3,51 +3,56 @@
 #include "camera.h"
 #include "ship.hpp"
 
+std::vector<Projectile*> projectiles; // Vector to hold all the projectiles
+
 Projectile::Projectile(Vector2 position, Vector2 targetPosition, int damage, Ship* owner){
     this->position = position;
     this->targetPosition = targetPosition;
     this->damage = damage;
     this->owner = owner;
-    for(int i = 0; i < projectileCount; i++){
-        if(projectiles[i] == nullptr){
-            projectiles[i] = this;
-            break;
-        }
-    }
-    projectileCount++;
+    projectiles.push_back(this);
 }
 
 Projectile::~Projectile(){
 
 }
 
-void Projectile::Update(){
-    Vector2 direction = Vector2Subtract(targetPosition, position);
-    float distance = Vector2Length(direction);
+bool Projectile::Update(){
+    if(this->active){
+        Vector2 direction = Vector2Subtract(targetPosition, position);
+        float distance = Vector2Length(direction);
 
-    if(distance > 2.0f){ // 2.0f is the threshold value for the ship to stop moving
-        float speed = 100.0f;
-        direction = Vector2Normalize(direction); // normalize the direction vector
-        velocity.x = direction.x * speed; // calculate velocity
-        velocity.y = direction.y * speed;
+        if(distance > 2.0f){ // 2.0f is the threshold value for the ship to stop moving
+            float speed = 100.0f;
+            direction = Vector2Normalize(direction); // normalize the direction vector
+            velocity.x = direction.x * speed; // calculate velocity
+            velocity.y = direction.y * speed;
 
-        // Update position based on velocity and deltaTime
-        position.x += velocity.x * GetFrameTime();
-        position.y += velocity.y * GetFrameTime();
+            // Update position based on velocity and deltaTime
+            position.x += velocity.x * GetFrameTime();
+            position.y += velocity.y * GetFrameTime();
+        }
+        else{
+            targetPosition = position;
+            velocity = {0, 0};
+            // Projectile has reached its target, it should be deleted
+            active = false;
+        }
+        if(hasHitShip()){
+            active = false;
+            return false;
+        }
     }
-    else{
-        targetPosition = position;
-        velocity = {0, 0};
-        // Projectile has reached its target, it should be deleted
-        toBeDestroyed = true;
-    }
+    return true;
 }
 
 void Projectile::Draw(){
-    DrawCircleV(position, 2, RED);
+    if(active) DrawCircleV(position, 2, RED);
 }
 
 bool Projectile::hasHitShip(){
+    if(!active) return false;
+
     for(int i = 0; i < 10; i++){
         if(ships[i] != nullptr){
             if(ships[i]->isPointInside(position, camera)){
@@ -55,30 +60,10 @@ bool Projectile::hasHitShip(){
                     return false;
                 }
                 ships[i]->SetHp(ships[i]->GetHp() - damage);
+                active = false;
                 return true;
             }
         }
     }
     return false;
-}
-
-void Projectile::DestroyProjectiles() {
-    int j = 0;
-    for(int i = 0; i < projectileCount; i++){
-        if(projectiles[i] != nullptr){
-            if(projectiles[i]->toBeDestroyed){
-                
-                delete projectiles[i];
-                projectiles[i] = nullptr;
-            }
-            
-            else {
-            if(i != j) {
-                projectiles[j] = projectiles[i];
-            }
-            j++;
-        }
-        }
-    }
-    projectileCount = j;
 }

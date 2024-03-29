@@ -7,13 +7,7 @@ Shell::Shell(Vector2 position, Vector2 targetPosition, int damage, Ship* owner) 
     this->targetPosition = targetPosition;
     this->damage = damage;
     this->owner = owner;
-    for(int i = 0; i < projectileCount; i++){
-        if(projectiles[i] == nullptr){
-            projectiles[i] = this;
-            break;
-        }
-    }
-    projectileCount++;
+    projectiles.push_back(this);
 }
 
 Shell::~Shell(){

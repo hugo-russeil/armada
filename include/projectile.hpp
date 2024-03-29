@@ -3,6 +3,7 @@
 
 #include "ship.hpp"
 #include "raylib.h"
+#include <vector>
 
 class Projectile{
     protected:
@@ -13,16 +14,15 @@ class Projectile{
         Ship* owner;
 
     public:
-        bool toBeDestroyed = false;
         Projectile(Vector2 position, Vector2 targetPosition, int damage, Ship* owner);
         ~Projectile();
-        void Update();
+        bool Update();
         void Draw();
         bool hasHitShip();
-        void DestroyProjectiles();
+        bool active = true;
 };
 
-extern Projectile* projectiles[25];
+extern std::vector<Projectile*> projectiles;
 extern int projectileCount;
 
 #endif // PROJECTILE_HPP

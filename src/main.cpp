@@ -30,9 +30,6 @@ Camera2D camera;
 Ship* ships[10] = {nullptr};
 int shipCount = 0;
 
-Projectile* projectiles[25] = {nullptr};
-int projectileCount = 0;
-
 bool debug = false;
 
 int main() {
@@ -81,7 +78,7 @@ int main() {
     Submarine* redSubmarine = new Submarine(Vector2{600, 800}, 2);
     redSubmarine->SetRotation(180.0f);
     redSubmarine->IndexShip();
-
+    std::vector<Projectile*>::iterator it;
     while (!WindowShouldClose()){
         
         switch (stage) {
@@ -90,47 +87,44 @@ int main() {
                 if (IsKeyPressed(KEY_ENTER)) stage = GAMEPLAY;
                 break;
             case GAMEPLAY:
-                BeginDrawing();
 
+                handleInput();
+
+                for(it = projectiles.begin(); it != projectiles.end();){
+                    if((*it)->Update()){
+                        ++it;
+                    } else {
+                        delete *it;
+                        it = projectiles.erase(it);
+                    }
+                }
+
+                BeginDrawing();
                     ClearBackground(SEABLUE);
-                    
                     BeginMode2D(camera);
 
                         for(int i = 0; i < shipCount; i++){
                             ships[i]->Update();
                             ships[i]->Draw();
                         }
-                        for(int i = 0; i < projectileCount; i++){
-                            Projectile* projectile = projectiles[i];
-                            if(projectile != nullptr && !projectile->toBeDestroyed){
-                                projectile->Update();
-                                if(projectile != nullptr && !projectile->toBeDestroyed){
-                                    projectile->Draw();
-                                    if(projectile != nullptr && projectile->hasHitShip()){
-                                        projectile->toBeDestroyed = true;
-                                    }
-                                }
-                            }
-                        }
-                        for(int i = 0; i < projectileCount; i++){
-                            if(projectiles[i] != nullptr && projectiles[i]->toBeDestroyed){
-                                projectiles[i]->DestroyProjectiles();
-                            }
+                        for(it = projectiles.begin(); it != projectiles.end(); ++it){
+                            if((*it)->active) (*it)->Draw();
                         }
                         
                         if(debug) displayShipsOutlines();
 
                     EndMode2D();
-
                 EndDrawing();
-
-                handleInput();
 
                 break;
             case GAME_OVER:
                 break;
         }
     }
+    // for(auto& projectile : projectiles){
+    //     delete projectile;
+    // }
+    // projectiles.clear();
 
     return 0;
 }

@@ -1,8 +1,8 @@
 CC = g++
 CC_WIN = i686-w64-mingw32-g++
-CFLAGS = -I ~/raylib/src -I $(INCLUDE_DIR) -I /usr/local/include
+CFLAGS = -g -I ~/raylib/src -I $(INCLUDE_DIR) -I /usr/local/include
 CFLAGS_WIN = -I ~/raylib/src -I $(INCLUDE_DIR) -I /usr/i686-w64-mingw32/include
-LDFLAGS = -L ~/raylib/release/libs/linux -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+LDFLAGS = -g -L ~/raylib/release/libs/linux -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 LDFLAGS_WIN = /usr/local/lib/libraylibwin.a -lgdi32 -lwinmm -luser32 -lm -L /usr/i686-w64-mingw32/lib -static-libgcc
 SRC_DIR = src
 INCLUDE_DIR = include

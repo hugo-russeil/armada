@@ -31,9 +31,13 @@ void Ship::IndexShip(){ // add this ship to the ships array
 }
 
 void Ship::Update(){
+    if(!active) return;
     Rotate(GetFrameTime());
     Move(GetFrameTime());
     Ship target = isEnemyNear();
+    if(hp <= 0){
+        active = false;
+    }
 }
 
 void Ship::Draw(){
@@ -120,14 +124,13 @@ Ship Ship::isEnemyNear(){
     for(int i = 0; i < 10; i++){
         if(ships[i] != nullptr && ships[i]->team != team){
             float distance = Vector2Distance(position, ships[i]->position);
-            if(distance < nearestDistance){
+            if(distance < nearestDistance && ships[i]->active){
                 nearestDistance = distance;
                 nearestEnemy = ships[i];
             }
         }
     }
     if(nearestDistance < 100){
-        //printf("Enemy is near\n"); // I'm a C developer alright ?
         Shoot(nearestEnemy);
         return *nearestEnemy;
     }
@@ -185,6 +188,14 @@ Vector2 Ship::GetDimensions(){
 
 int Ship::GetHp(){
     return hp;
+}
+
+int Ship::GetMaxHp(){
+    return maxHp;
+}
+
+int Ship::GetFuel(){
+    return fuel;
 }
 
 float Ship::GetRotation(){
