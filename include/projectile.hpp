@@ -16,9 +16,9 @@ class Projectile{
     public:
         Projectile(Vector2 position, Vector2 targetPosition, int damage, Ship* owner);
         ~Projectile();
-        bool Update();
-        void Draw();
-        bool hasHitShip();
+        virtual bool Update() = 0; // returns true if the projectile is still active
+        virtual void Draw() = 0;
+        virtual bool hasHitShip() = 0;
         bool active = true;
 };
 

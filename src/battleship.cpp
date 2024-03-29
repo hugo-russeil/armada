@@ -54,9 +54,10 @@ void Battleship::Draw() {
 
         // Draw fuel bar
         float currentFuelWidth = barWidth * (this->fuel / this->maxFuel);
+        float lostFuelWidth = barWidth - currentFuelWidth;
         Color fuelBarColor = RED;
         Color currentFuelColor = YELLOW;
-        DrawRectangle(drawPosition.x - barWidth/2, drawPosition.y + this->sprite.height - 15, barWidth, 2, fuelBarColor);
         DrawRectangle(drawPosition.x - barWidth/2, drawPosition.y + this->sprite.height - 15, currentFuelWidth, 2, currentFuelColor);
+        DrawRectangle(drawPosition.x - barWidth/2 + currentFuelWidth, drawPosition.y + this->sprite.height - 15, lostFuelWidth, 2, fuelBarColor);
     }
 }

@@ -4,6 +4,8 @@ extern "C" {
     #include "camera.h"
 }
 
+#include <sstream>
+
 #include "input.hpp"
 #include "debug.hpp"
 #include "mainMenu.hpp"
@@ -59,23 +61,23 @@ int main() {
     blueSubmarine->IndexShip();
 
     // Team 2 (Red)
-    Cruiser* redCruiser = new Cruiser(Vector2{200, 800}, 2);
+    Cruiser* redCruiser = new Cruiser(Vector2{200, 400}, 2);
     redCruiser->SetRotation(180.0f);
     redCruiser->IndexShip();
 
-    Destroyer* redDestroyer = new Destroyer(Vector2{300, 800}, 2);
+    Destroyer* redDestroyer = new Destroyer(Vector2{300, 400}, 2);
     redDestroyer->SetRotation(180.0f);
     redDestroyer->IndexShip();
 
-    Battleship* redBattleship = new Battleship(Vector2{400, 800}, 2);
+    Battleship* redBattleship = new Battleship(Vector2{400, 400}, 2);
     redBattleship->SetRotation(180.0f);
     redBattleship->IndexShip();
 
-    // Carrier* redCarrier = new Carrier(Vector2{500, 800}, 2);
+    // Carrier* redCarrier = new Carrier(Vector2{500, 400}, 2);
     // redCarrier->SetRotation(180.0f);
     // redCarrier->IndexShip();
 
-    Submarine* redSubmarine = new Submarine(Vector2{600, 800}, 2);
+    Submarine* redSubmarine = new Submarine(Vector2{600, 400}, 2);
     redSubmarine->SetRotation(180.0f);
     redSubmarine->IndexShip();
     std::vector<Projectile*>::iterator it;
@@ -90,13 +92,13 @@ int main() {
 
                 handleInput();
 
+                for(int i = 0; i < shipCount; i++){
+                    ships[i]->Update();
+                }
+
                 for(it = projectiles.begin(); it != projectiles.end();){
-                    if((*it)->Update()){
-                        ++it;
-                    } else {
-                        delete *it;
-                        it = projectiles.erase(it);
-                    }
+                    (*it)->active = (*it)->Update();
+                    it++;
                 }
 
                 BeginDrawing();
@@ -104,14 +106,17 @@ int main() {
                     BeginMode2D(camera);
 
                         for(int i = 0; i < shipCount; i++){
-                            ships[i]->Update();
                             ships[i]->Draw();
                         }
                         for(it = projectiles.begin(); it != projectiles.end(); ++it){
                             if((*it)->active) (*it)->Draw();
                         }
                         
-                        if(debug) displayShipsOutlines();
+                        if(debug){
+                            displayShipsOutlines();
+                            DrawText(("FPS: " + std::to_string(GetFPS())).c_str(), 10, 10, 20, BLACK);
+                            DrawText(("Projectiles: " + std::to_string(projectiles.size())).c_str(), 10, 30, 20, BLACK);
+                        } 
 
                     EndMode2D();
                 EndDrawing();
@@ -120,11 +125,16 @@ int main() {
             case GAME_OVER:
                 break;
         }
+        for(it = projectiles.begin(); it != projectiles.end();){
+            if(!(*it)->active){
+                delete *it;
+                it = projectiles.erase(it);
+            }
+            else{
+                it++;
+            }
+        }
     }
-    // for(auto& projectile : projectiles){
-    //     delete projectile;
-    // }
-    // projectiles.clear();
 
     return 0;
 }

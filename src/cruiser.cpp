@@ -47,16 +47,18 @@ void Cruiser::Draw() {
 
         // Draw health bar
         float currentHealthWidth = barWidth * (this->hp / this->maxHp);
+        float lostHealthWidth = barWidth - currentHealthWidth;
         Color healthBarColor = RED;
         Color currentHealthColor = GREEN;
-        DrawRectangle(drawPosition.x - barWidth/2, drawPosition.y + this->sprite.height - 20, barWidth, 2, healthBarColor);
         DrawRectangle(drawPosition.x - barWidth/2, drawPosition.y + this->sprite.height - 20, currentHealthWidth, 2, currentHealthColor);
+        DrawRectangle(drawPosition.x - barWidth/2 + currentHealthWidth, drawPosition.y + this->sprite.height - 20, lostHealthWidth, 2, healthBarColor);
 
         // Draw fuel bar
         float currentFuelWidth = barWidth * (this->fuel / this->maxFuel);
+        float lostFuelWidth = barWidth - currentFuelWidth;
         Color fuelBarColor = RED;
         Color currentFuelColor = YELLOW;
-        DrawRectangle(drawPosition.x - barWidth/2, drawPosition.y + this->sprite.height - 15, barWidth, 2, fuelBarColor);
         DrawRectangle(drawPosition.x - barWidth/2, drawPosition.y + this->sprite.height - 15, currentFuelWidth, 2, currentFuelColor);
+        DrawRectangle(drawPosition.x - barWidth/2 + currentFuelWidth, drawPosition.y + this->sprite.height - 15, lostFuelWidth, 2, fuelBarColor);
     }
 }

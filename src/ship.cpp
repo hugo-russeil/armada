@@ -5,6 +5,7 @@
 
 #include "projectile.hpp"
 #include "shell.hpp"
+#include "torpedo.hpp"
 
 #include "submarine.hpp"
 
@@ -90,15 +91,16 @@ void Ship::Rotate(float deltaTime){
 }
 
 void Ship::Shoot(Ship* target){
-    static int shootCooldown = 0;
+    static int batteryCooldown = 200;
+    static int torpedoCooldown = 300;
     // Shoot deck battery
     if(hasDeckBattery && dynamic_cast<Submarine*>(target) == nullptr){ // A deck battery would be ineffective against a submarine (source : i said so)
-        if(shootCooldown > 0){
-            shootCooldown--;
-            return;
+        if(batteryCooldown > 0){
+            batteryCooldown--;
+        }else{
+            Shell* shell = new Shell(position, target->position, deckBatteryDamage, this);
+            batteryCooldown = 100;
         }
-        Shell* shell = new Shell(position, target->position, deckBatteryDamage, this);
-        shootCooldown = 100;
     }
 
     // Shoot AA gun
@@ -108,7 +110,12 @@ void Ship::Shoot(Ship* target){
 
     // Shoot torpedo
     if(hasTorpedo){
-        // Shoot torpedo
+        if(torpedoCooldown > 0){
+            torpedoCooldown--;
+        }else{
+            Torpedo* torpedo = new Torpedo(position, target->position, torpedoDamage, this);
+            torpedoCooldown = 200;
+        }
     }
 
     // Shoot depth charge

@@ -1,11 +1,8 @@
-#include "shell.hpp"
+#include "torpedo.hpp"
 #include "camera.h"
-#include "submarine.hpp"
 #include "raymath.h"
 
-#include <iostream>
-
-Shell::Shell(Vector2 position, Vector2 targetPosition, int damage, Ship* owner) : Projectile(position, targetPosition, damage, owner){
+Torpedo::Torpedo(Vector2 position, Vector2 targetPosition, int damage, Ship* owner) : Projectile(position, targetPosition, damage, owner){
     this->position = position;
     this->targetPosition = targetPosition;
     this->damage = damage;
@@ -13,12 +10,9 @@ Shell::Shell(Vector2 position, Vector2 targetPosition, int damage, Ship* owner) 
     projectiles.push_back(this);
 }
 
-Shell::~Shell(){
+Torpedo::~Torpedo() {}
 
-}
-
-bool Shell::Update(){
-    std::cout << "Shell::Update()" << std::endl;
+bool Torpedo::Update(){
     if(active){
         Vector2 direction = Vector2Subtract(targetPosition, position);
         float distance = Vector2Length(direction);
@@ -47,21 +41,19 @@ bool Shell::Update(){
     return active;
 }
 
-void Shell::Draw(){
-    if(active) DrawCircleV(position, 2, RED);
+void Torpedo::Draw(){
+    if(active) DrawCircleV(position, 2, BLUE);
 }
 
-bool Shell::hasHitShip(){
+bool Torpedo::hasHitShip() {
     for(int i = 0; i < 10; i++){
         if(ships[i] != nullptr){
-            if(dynamic_cast<Submarine*>(ships[i]) == nullptr){ // A shell can't hit a submarine
-                if(ships[i]->isPointInside(position, camera)){
-                    if(ships[i] == owner){
-                        return false;
-                    }
-                    ships[i]->SetHp(ships[i]->GetHp() - damage);
-                    return true;
+            if(ships[i]->isPointInside(position, camera)){
+                if(ships[i] == owner){
+                    return false;
                 }
+                ships[i]->SetHp(ships[i]->GetHp() - damage);
+                return true;
             }
         }
     }
