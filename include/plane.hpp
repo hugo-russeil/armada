@@ -27,12 +27,12 @@ public:
     void SetTarget(Ship* target);
 private:
     Squadron* squadron;
-    Texture2D sprite;
+    Texture2D sprite = LoadTexture("assets/gfx/plane.png");
     Vector2 position;
     Vector2 targetPosition;
     Vector2 velocity;
     float rotation;
-    int hp;
+    int hp = 50;
     int bombCount = 4;
     int damage;
     Carrier* owner;

@@ -25,7 +25,6 @@ void Squadron::Update() {
             Plane* plane = new Plane(carrier->GetPosition(), carrier->GetTeam(), carrier);
             plane->SetTarget(target);
             squadronPlanes.push_back(plane);
-            planes.push_back(plane);
             activePlanes++;
             delay = 100;
         } else {

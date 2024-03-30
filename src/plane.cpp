@@ -12,7 +12,6 @@ Plane::Plane(Vector2 position, int team, Carrier* owner){
     this->targetPosition = position;
     this->owner = owner;
     this->damage = 5;
-    this->sprite = LoadTexture("assets/gfx/plane.png");
     planes.push_back(this);
 }
 
