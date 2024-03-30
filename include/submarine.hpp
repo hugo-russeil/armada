@@ -8,6 +8,7 @@ public:
     Submarine(Vector2 position, int team);
     ~Submarine();
     void Draw() override;
+    std::string GetClass() override;
 };
 
 #endif // SUBMARINE_HPP

@@ -208,3 +208,11 @@ int Ship::GetFuel(){
 float Ship::GetRotation(){
     return rotation;
 }
+
+int Ship::GetTeam(){
+    return team;
+}
+
+std::string Ship::GetClass(){
+    return "Unidentified Vessel"; // Player should never see this
+}

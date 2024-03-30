@@ -1,36 +1,36 @@
-#include "cruiser.hpp"
+#include "carrier.hpp"
 
-Cruiser::Cruiser(Vector2 position, int team) : Ship(position, team) {
-    this->sprite = LoadTexture("assets/gfx/cruiser.png");
+Carrier::Carrier(Vector2 position, int team) : Ship(position, team) {
+    this->sprite = LoadTexture("assets/gfx/carrier.png");
     this->dimensions = Vector2{static_cast<float>(this->sprite.width), static_cast<float>(this->sprite.height)};
     this->position = position;
     this->targetPosition = position;
     this->team = team;
     this->velocity = Vector2{0, 0};
     this->rotation = 0;
-    this->hp = 100;
-    this->maxHp = 100;
-    this->fuel = 100;
-    this->maxFuel = 100;
+    this->hp = 150;
+    this->maxHp = 150;
+    this->fuel = 200;
+    this->maxFuel = 200;
 
     this->hasDeckBattery = true;
     this->deckBatteryDamage = 10;
 
     this->hasAAGun = true;
-    this->AAGunDamage = 10;
+    this->AAGunDamage = 20;
 
-    this->hasTorpedo = true;
-    this->torpedoDamage = 10;
+    this->hasTorpedo = false;
+    this->torpedoDamage = 0;
 
-    this->hasDepthCharge = true;
-    this->depthChargeDamage = 10;
-}
-    
-Cruiser::~Cruiser() {
-    
+    this->hasDepthCharge = false;
+    this->depthChargeDamage = 0;
 }
 
-void Cruiser::Draw() {
+Carrier::~Carrier() {
+    
+}
+
+void Carrier::Draw() {
     if(!active) return;
     Vector2 drawPosition = this->position;
     Vector2 origin = { static_cast<float>(this->sprite.width) / 2.0f, static_cast<float>(this->sprite.height) / 2.0f };
@@ -47,11 +47,10 @@ void Cruiser::Draw() {
 
         // Draw health bar
         float currentHealthWidth = barWidth * (this->hp / this->maxHp);
-        float lostHealthWidth = barWidth - currentHealthWidth;
         Color healthBarColor = RED;
         Color currentHealthColor = GREEN;
+        DrawRectangle(drawPosition.x - barWidth/2, drawPosition.y + this->sprite.height - 20, barWidth, 2, healthBarColor);
         DrawRectangle(drawPosition.x - barWidth/2, drawPosition.y + this->sprite.height - 20, currentHealthWidth, 2, currentHealthColor);
-        DrawRectangle(drawPosition.x - barWidth/2 + currentHealthWidth, drawPosition.y + this->sprite.height - 20, lostHealthWidth, 2, healthBarColor);
 
         // Draw fuel bar
         float currentFuelWidth = barWidth * (this->fuel / this->maxFuel);
@@ -63,6 +62,6 @@ void Cruiser::Draw() {
     }
 }
 
-std::string Cruiser::GetClass() {
-    return "Cruiser";
+std::string Carrier::GetClass() {
+    return "Aircraft Carrier";
 }

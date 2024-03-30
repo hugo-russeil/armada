@@ -8,6 +8,7 @@ class Cruiser : public Ship {
         Cruiser(Vector2 position, int team);
         virtual ~Cruiser();
         void Draw() override;
+        std::string GetClass() override;
 };
 
 #endif // CRUISER_HPP

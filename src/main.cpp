@@ -12,10 +12,15 @@ extern "C" {
 #include "projectile.hpp"
 
 // Include the ship classes
+#include "carrier.hpp"
 #include "battleship.hpp"
 #include "cruiser.hpp"
 #include "destroyer.hpp"
 #include "submarine.hpp"
+
+// Include the plane classes
+#include "plane.hpp"
+#include "squadron.hpp"
 
 #define SEABLUE Color{0, 105, 148, 255}
 
@@ -54,8 +59,8 @@ int main() {
     Battleship* blueBattleship = new Battleship(Vector2{400, 200}, 1);
     blueBattleship->IndexShip();
 
-    // Carrier* blueCarrier = new Carrier(Vector2{500, 200}, 1);
-    // blueCarrier->IndexShip();
+    Carrier* blueCarrier = new Carrier(Vector2{500, 200}, 1);
+    blueCarrier->IndexShip();
 
     Submarine* blueSubmarine = new Submarine(Vector2{600, 200}, 1);
     blueSubmarine->IndexShip();
@@ -73,14 +78,21 @@ int main() {
     redBattleship->SetRotation(180.0f);
     redBattleship->IndexShip();
 
-    // Carrier* redCarrier = new Carrier(Vector2{500, 400}, 2);
-    // redCarrier->SetRotation(180.0f);
-    // redCarrier->IndexShip();
+    Carrier* redCarrier = new Carrier(Vector2{500, 400}, 2);
+    redCarrier->SetRotation(180.0f);
+    redCarrier->IndexShip();
 
     Submarine* redSubmarine = new Submarine(Vector2{600, 400}, 2);
     redSubmarine->SetRotation(180.0f);
     redSubmarine->IndexShip();
+
+    Squadron* blueSquadron = new Squadron(blueCarrier);
+
+    Squadron* redSquadron = new Squadron(redCarrier);
+    redSquadron->Deploy(blueCarrier);
+
     std::vector<Projectile*>::iterator it;
+    std::vector<Plane*>::iterator planeIt;
     while (!WindowShouldClose()){
         
         switch (stage) {
@@ -101,6 +113,10 @@ int main() {
                     it++;
                 }
 
+                for(planeIt = planes.begin(); planeIt != planes.end(); planeIt++){
+                    (*planeIt)->Update();
+                }
+
                 BeginDrawing();
                     ClearBackground(SEABLUE);
                     BeginMode2D(camera);
@@ -111,14 +127,28 @@ int main() {
                         for(it = projectiles.begin(); it != projectiles.end(); ++it){
                             if((*it)->active) (*it)->Draw();
                         }
+                        for(planeIt = planes.begin(); planeIt != planes.end(); ++planeIt){
+                            if((*planeIt)->active) (*planeIt)->Draw();
+                        }
+
+                        redSquadron->Update();
+                        blueSquadron->Update();
                         
                         if(debug){
                             displayShipsOutlines();
+                            displayPlanesOutlines();
                             DrawText(("FPS: " + std::to_string(GetFPS())).c_str(), 10, 10, 20, BLACK);
                             DrawText(("Projectiles: " + std::to_string(projectiles.size())).c_str(), 10, 30, 20, BLACK);
-                        } 
+                        }
 
                     EndMode2D();
+
+                    if(selectedShip != nullptr){
+                        DrawText(("Selected ship: " + selectedShip->GetClass()).c_str(), 10, 10, 20, BLACK);
+                        DrawText(("HP: " + std::to_string(selectedShip->GetHp())).c_str(), 10, 30, 20, BLACK);
+                        DrawText(("Fuel: " + std::to_string(selectedShip->GetFuel())).c_str(), 10, 50, 20, BLACK);
+                    }
+
                 EndDrawing();
 
                 break;

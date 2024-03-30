@@ -1,6 +1,8 @@
 #ifndef SHIP_HPP
 #define SHIP_HPP
 
+#include <string>
+
 extern "C" {
     #include "raylib.h"
 }
@@ -30,6 +32,8 @@ class Ship {
         int GetMaxHp();
         int GetFuel();
         float GetRotation();
+        int GetTeam();
+        virtual std::string GetClass();
         bool active = true;
         
     protected:

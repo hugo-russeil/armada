@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "ship.hpp"
+#include "plane.hpp"
 
 void toogleDebug() {
     debug = !debug;
@@ -33,5 +34,11 @@ void DrawRotatedRectangleLines(Vector2 position, Vector2 dimensions, float rotat
 void displayShipsOutlines(){
     for(int i = 0; i < shipCount; i++){
         DrawRotatedRectangleLines(ships[i]->GetPosition(), ships[i]->GetDimensions(), ships[i]->GetRotation() * DEG2RAD, RED);
+    }
+}
+
+void displayPlanesOutlines(){
+    for(int i = 0; i < planes.size(); i++){
+        DrawRotatedRectangleLines(planes[i]->GetPosition(), planes[i]->GetDimensions(), planes[i]->GetRotation() * DEG2RAD, RED);
     }
 }

@@ -62,3 +62,7 @@ void Submarine::Draw() {
         DrawRectangle(drawPosition.x - barWidth/2 + currentFuelWidth, drawPosition.y + this->sprite.height - 15, lostFuelWidth, 2, fuelBarColor);
     }
 }
+
+std::string Submarine::GetClass() {
+    return "Submarine";
+}

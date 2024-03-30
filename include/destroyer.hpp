@@ -8,6 +8,7 @@ public:
     Destroyer(Vector2 position, int team);
     ~Destroyer();
     void Draw() override;
+    std::string GetClass() override;
 };
 
 #endif // DESTROYER_HPP
