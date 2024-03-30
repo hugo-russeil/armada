@@ -23,6 +23,7 @@ public:
     Vector2 GetDimensions();
     float GetRotation();
     void SetRotation(float rotation);
+    void SetPosition(Vector2 position);
     void SetTargetPosition(Vector2 targetPosition);
     void SetTarget(Ship* target);
 private:

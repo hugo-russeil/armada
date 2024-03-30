@@ -20,25 +20,34 @@ Plane::~Plane(){
 }
 
 bool Plane::Update(){
-    if(!active) return false;
-    Rotate(GetFrameTime());
+    if(active){
+        
+        Rotate(GetFrameTime());
 
-    if(bombCount > 0){
-        // If the plane has bombs, set target to the enemy ship
-        SetTargetPosition(target->GetPosition());
-        // If the plane is close to the target, drop a bomb
-        if(Vector2Distance(position, target->GetPosition()) < 10){
-            DropBomb(target);
+        if(bombCount > 0){
+            // If the plane has bombs, set target to the enemy ship
+            SetTargetPosition(target->GetPosition());
+            // If the plane is close to the target, drop a bomb
+            if(Vector2Distance(position, target->GetPosition()) < 10){
+                DropBomb(target);
+                SetTargetPosition(owner->GetPosition());
+            }
+        } else {
+            // If the plane has no bombs left, return to the carrier
+            SetTargetPosition(owner->GetPosition());
+            if(Vector2Distance(position, owner->GetPosition()) < 10){ // The plane has returned to the carrier, stand down
+                active = false;
+            }
         }
-    } else {
-        // If the plane has no bombs left, return to the carrier
-        SetTargetPosition(owner->GetPosition());
-    }
 
-    Move(GetFrameTime());
+        Move(GetFrameTime());
 
-    if(hp <= 0){
-        active = false;
+        if(hp <= 0){
+            active = false;
+        }
+    }else{ // Simply ensure the plane stays in its carrier
+        SetPosition(owner->GetPosition());
+        SetRotation(owner->GetRotation());
     }
     return active;
 }
@@ -48,7 +57,7 @@ void Plane::Move(float deltaTime){
     float distance = Vector2Length(direction);
 
     if(distance > 10.0f){ // 10.0f is the threshold value for the plane to stop moving
-        float speed = 10.0f;
+        float speed = 20.0f; // Twice the speed of the ships, so they cannot flee from the planes forever
         float rotationInRadians = (rotation + 90) * DEG2RAD; // adjust rotation and convert to radians
         velocity.x = cos(rotationInRadians) * speed;
         velocity.y = sin(rotationInRadians) * speed;
@@ -72,7 +81,7 @@ void Plane::Rotate(float deltaTime){
         targetRotation = fmod(targetRotation + 360.0f, 360.0f);
         rotation = fmod(rotation + 360.0f, 360.0f);
 
-        float rotationSpeed = 20.0f; // in degrees per second
+        float rotationSpeed = 50.0f; // in degrees per second
         float difference = targetRotation - rotation;
 
         // Normalize difference to the range of -180 to 180
@@ -115,6 +124,10 @@ Vector2 Plane::GetDimensions(){
 }
 float Plane::GetRotation(){
     return rotation;
+}
+
+void Plane::SetPosition(Vector2 position){
+    this->position = position;
 }
 
 void Plane::SetRotation(float rotation){

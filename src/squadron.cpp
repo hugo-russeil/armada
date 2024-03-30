@@ -3,6 +3,12 @@
 Squadron::Squadron(Carrier* carrier) {
     this->carrier = carrier;
     this->target = nullptr;
+    // Create 5 planes
+    for (int i = 0; i < planeCount; i++) {
+        Plane* plane = new Plane(carrier->GetPosition(), carrier->GetTeam(), carrier);
+        plane->active = false; // Planes are inactive until deployed
+        squadronPlanes.push_back(plane);
+    }
 }
 
 Squadron::~Squadron() {
@@ -22,11 +28,11 @@ void Squadron::Update() {
             return;
         }
         if (activePlanes < planeCount) {
-            Plane* plane = new Plane(carrier->GetPosition(), carrier->GetTeam(), carrier);
+            Plane* plane = squadronPlanes[activePlanes];
             plane->SetTarget(target);
-            squadronPlanes.push_back(plane);
+            plane->active = true;
             activePlanes++;
-            delay = 100;
+            delay = 40;
         } else {
             deploying = false;
         }
