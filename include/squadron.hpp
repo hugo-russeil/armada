@@ -14,6 +14,8 @@ class Squadron {
         void Deploy(Ship* target);
         void Update();
         void setTarget(Ship* target);
+        int GetActivePlanes();
+        void SetActivePlanes(int activePlanes);
     private:
         std::vector<Plane*> squadronPlanes;
         Carrier* carrier;
@@ -22,5 +24,7 @@ class Squadron {
         int activePlanes = 0;
         bool deploying = false;
 };
+
+extern Squadron* selectedSquadron;
 
 #endif // SQUADRON_HPP

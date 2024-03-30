@@ -89,7 +89,6 @@ int main() {
     Squadron* blueSquadron = new Squadron(blueCarrier);
 
     Squadron* redSquadron = new Squadron(redCarrier);
-    redSquadron->Deploy(blueCarrier);
 
     std::vector<Projectile*>::iterator it;
     std::vector<Plane*>::iterator planeIt;
@@ -147,6 +146,10 @@ int main() {
                         DrawText(("Selected ship: " + selectedShip->GetClass()).c_str(), 10, 10, 20, BLACK);
                         DrawText(("HP: " + std::to_string(selectedShip->GetHp())).c_str(), 10, 30, 20, BLACK);
                         DrawText(("Fuel: " + std::to_string(selectedShip->GetFuel())).c_str(), 10, 50, 20, BLACK);
+                    }
+                    if(selectedSquadron != nullptr){
+                        DrawText(("Selected squadron"), 10, 10, 20, BLACK);
+                        DrawText(("Planes: " + std::to_string(selectedSquadron->GetActivePlanes())).c_str(), 10, 30, 20, BLACK);
                     }
 
                 EndDrawing();

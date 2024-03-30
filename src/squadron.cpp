@@ -7,8 +7,10 @@ Squadron::Squadron(Carrier* carrier) {
     for (int i = 0; i < planeCount; i++) {
         Plane* plane = new Plane(carrier->GetPosition(), carrier->GetTeam(), carrier);
         plane->active = false; // Planes are inactive until deployed
+        plane->SetSquadron(this);
         squadronPlanes.push_back(plane);
     }
+    carrier->SetSquadron(this);
 }
 
 Squadron::~Squadron() {
@@ -16,6 +18,7 @@ Squadron::~Squadron() {
 }
 
 void Squadron::Deploy(Ship* target) {
+    if(activePlanes != 0 || deploying) return; // Can't give the order to deploy if already deployed
     this->target = target;
     deploying = true;
 }
@@ -41,4 +44,12 @@ void Squadron::Update() {
 
 void Squadron::setTarget(Ship* target) {
     this->target = target;
+}
+
+int Squadron::GetActivePlanes() {
+    return activePlanes;
+}
+
+void Squadron::SetActivePlanes(int activePlanes) {
+    this->activePlanes = activePlanes;
 }

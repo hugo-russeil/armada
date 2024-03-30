@@ -25,6 +25,7 @@ public:
     void SetRotation(float rotation);
     void SetPosition(Vector2 position);
     void SetTargetPosition(Vector2 targetPosition);
+    void SetSquadron(Squadron* squadron);
     void SetTarget(Ship* target);
 private:
     Squadron* squadron;

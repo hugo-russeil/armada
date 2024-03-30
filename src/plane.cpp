@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "raylib.h"
 #include "raymath.h"
+#include "squadron.hpp"
 
 std::vector<Plane*> planes; // Vector to hold all the planes
 
@@ -30,13 +31,15 @@ bool Plane::Update(){
             // If the plane is close to the target, drop a bomb
             if(Vector2Distance(position, target->GetPosition()) < 10){
                 DropBomb(target);
-                SetTargetPosition(owner->GetPosition());
+                SetTargetPosition(owner->GetPosition()); // Immediately assigning a new destination to ensure the plane doesn't stop midair
             }
         } else {
             // If the plane has no bombs left, return to the carrier
             SetTargetPosition(owner->GetPosition());
             if(Vector2Distance(position, owner->GetPosition()) < 10){ // The plane has returned to the carrier, stand down
+                squadron->SetActivePlanes(squadron->GetActivePlanes() - 1); // Decrement the active planes counter
                 active = false;
+                bombCount = 4; // Rearm the plane
             }
         }
 
@@ -136,6 +139,10 @@ void Plane::SetRotation(float rotation){
 
 void Plane::SetTargetPosition(Vector2 targetPosition){
     this->targetPosition = targetPosition;
+}
+
+void Plane::SetSquadron(Squadron* squadron){
+    this->squadron = squadron;
 }
 
 void Plane::SetTarget(Ship* target){

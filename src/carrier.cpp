@@ -65,3 +65,11 @@ void Carrier::Draw() {
 std::string Carrier::GetClass() {
     return "Aircraft Carrier";
 }
+
+Squadron* Carrier::GetSquadron() {
+    return this->squadron;
+}
+
+void Carrier::SetSquadron(Squadron* squadron) {
+    this->squadron = squadron;
+}

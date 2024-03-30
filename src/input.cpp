@@ -6,14 +6,17 @@ extern "C" {
 #include "input.hpp"
 #include "debug.hpp"
 #include "ship.hpp"
+#include "squadron.hpp"
 #include <iostream>
 
 Ship* selectedShip = nullptr;
+Squadron* selectedSquadron = nullptr;
 
 void handleInput() {
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         selectedShip = nullptr;
+        selectedSquadron = nullptr;
         Vector2 mousePosition = GetMousePosition();
         Vector2 worldPoint;
         worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
@@ -27,13 +30,27 @@ void handleInput() {
         }
     }
 
-    if (IsMouseButtonReleased(MOUSE_RIGHT_BUTTON) && selectedShip != nullptr) {
-        Vector2 mousePosition = GetMousePosition();
-        Vector2 worldPoint;
-        worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
-        worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
-        selectedShip->SetTargetPosition(worldPoint);
-        std::cout << "Set target position for ship: " << selectedShip << std::endl;
+    if (IsMouseButtonReleased(MOUSE_RIGHT_BUTTON)) {
+        if(selectedShip != nullptr){
+            Vector2 mousePosition = GetMousePosition();
+            Vector2 worldPoint;
+            worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
+            worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
+            selectedShip->SetTargetPosition(worldPoint);
+        }
+        if(selectedSquadron != nullptr){
+            Vector2 mousePosition = GetMousePosition();
+            Vector2 worldPoint;
+            worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
+            worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
+            for (int i = 0; i < shipCount; i++) {
+                if (ships[i]->isPointInside(worldPoint, camera)) {
+                    Ship* target = ships[i];
+                    selectedSquadron->Deploy(target);
+                    break;
+                }
+            }
+        }
     }
 
     Vector2 mouseDelta = GetMouseDelta();
@@ -59,8 +76,15 @@ void handleInput() {
     }
 
     if(selectedShip != nullptr){
-        if (IsKeyPressed(KEY_H)) {
-            selectedShip->SetTargetPosition(selectedShip->GetPosition());
-        }
+    if (IsKeyPressed(KEY_H)) {
+        selectedShip->SetTargetPosition(selectedShip->GetPosition());
     }
+    Carrier* carrier = dynamic_cast<Carrier*>(selectedShip);
+    if(carrier != nullptr){
+        if (IsKeyPressed(KEY_B)) {
+            selectedSquadron = carrier->GetSquadron();
+            selectedShip = nullptr; // can't have two selected objects at once
+        }
+    }         
+}
 }
