@@ -18,15 +18,19 @@ public:
     void DropBomb(Ship* target);
     void Draw();
     bool active = true;
+    bool downed = false;
 
     Vector2 GetPosition();
     Vector2 GetDimensions();
     float GetRotation();
+    Carrier* GetOwner();
     void SetRotation(float rotation);
     void SetPosition(Vector2 position);
     void SetTargetPosition(Vector2 targetPosition);
     void SetSquadron(Squadron* squadron);
     void SetTarget(Ship* target);
+    void SetHp(int hp);
+    int GetHp();
 private:
     Squadron* squadron;
     Texture2D sprite = LoadTexture("assets/gfx/plane.png");

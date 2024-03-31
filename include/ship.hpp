@@ -2,10 +2,9 @@
 #define SHIP_HPP
 
 #include <string>
+#include "raylib.h"
 
-extern "C" {
-    #include "raylib.h"
-}
+class Plane; // forward declaration
 
 class Ship {
     public:
@@ -16,8 +15,9 @@ class Ship {
         virtual void Draw();
         virtual void Move(float deltaTime);
         virtual void Rotate(float deltaTime);
-        virtual Ship isEnemyNear(); // returns the nearest enemy ship
-        virtual void Shoot(Ship* target);
+        virtual Ship* isEnemyNear(); // returns the nearest enemy ship
+        virtual Plane* isEnemyPlaneNear(); // returns the nearest enemy plane
+        virtual void Shoot(Ship* target, Plane* airTarget);
 
         bool isPointInside(Vector2 point, Camera2D camera);
 

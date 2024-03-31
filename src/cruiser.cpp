@@ -19,11 +19,11 @@ Cruiser::Cruiser(Vector2 position, int team) : Ship(position, team) {
     this->hasAAGun = true;
     this->AAGunDamage = 10;
 
-    this->hasTorpedo = true;
-    this->torpedoDamage = 10;
+    this->hasTorpedo = false;
+    this->torpedoDamage = 0;
 
-    this->hasDepthCharge = true;
-    this->depthChargeDamage = 10;
+    this->hasDepthCharge = false;
+    this->depthChargeDamage = 0;
 }
     
 Cruiser::~Cruiser() {

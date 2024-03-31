@@ -40,6 +40,16 @@ void Squadron::Update() {
             deploying = false;
         }
     }
+    // Check for downed planes and delete them
+    for (int i = 0; i < squadronPlanes.size(); i++) {
+        if (squadronPlanes[i]->downed) {
+            delete squadronPlanes[i];
+            squadronPlanes.erase(squadronPlanes.begin() + i);
+            i--; // Decrement i because the elements after i have moved down by 1
+            activePlanes--; // Decrement the active planes counter
+            planeCount--; // Decrement the plane count
+        }
+    }
 }
 
 void Squadron::setTarget(Ship* target) {
@@ -50,6 +60,18 @@ int Squadron::GetActivePlanes() {
     return activePlanes;
 }
 
+int Squadron::GetPlaneCount() {
+    return planeCount;
+}
+
 void Squadron::SetActivePlanes(int activePlanes) {
     this->activePlanes = activePlanes;
+}
+
+void Squadron::SetPlaneCount(int planeCount) {
+    this->planeCount = planeCount;
+}
+
+std::vector<Plane*> Squadron::GetSquadronPlanes() {
+    return squadronPlanes;
 }

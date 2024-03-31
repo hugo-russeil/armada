@@ -5,8 +5,10 @@
 
 #include "projectile.hpp"
 #include "shell.hpp"
+#include "aaShell.hpp"
 #include "torpedo.hpp"
 
+#include "plane.hpp"
 #include "submarine.hpp"
 
 #include <iostream>
@@ -35,7 +37,9 @@ void Ship::Update(){
     if(!active) return;
     Rotate(GetFrameTime());
     Move(GetFrameTime());
-    Ship target = isEnemyNear();
+    Ship* surfaceTarget = isEnemyNear();
+    Plane* airTarget = isEnemyPlaneNear();
+    Shoot(surfaceTarget, airTarget);
     if(hp <= 0){
         active = false;
     }
@@ -90,11 +94,14 @@ void Ship::Rotate(float deltaTime){
     }
 }
 
-void Ship::Shoot(Ship* target){
+void Ship::Shoot(Ship* target, Plane* airTarget){
     static int batteryCooldown = 200;
+    static int AAGunCooldown = 200;
     static int torpedoCooldown = 300;
     // Shoot deck battery
-    if(hasDeckBattery && dynamic_cast<Submarine*>(target) == nullptr){ // A deck battery would be ineffective against a submarine (source : i said so)
+    if(hasDeckBattery && 
+       dynamic_cast<Submarine*>(target) == nullptr && // A deck battery would be ineffective against a submarine (source : i said so)
+       target != nullptr){ 
         if(batteryCooldown > 0){
             batteryCooldown--;
         }else{
@@ -104,12 +111,24 @@ void Ship::Shoot(Ship* target){
     }
 
     // Shoot AA gun
-    if(hasAAGun){
-        // Shoot AA gun
+    if(hasAAGun && airTarget != nullptr){
+        if(AAGunCooldown > 0){
+            AAGunCooldown--;
+        }else{
+            Vector2 inaccurateTargetPosition = airTarget->GetPosition();
+
+            // Add some randomness to the target position
+            float inaccuracy = 10.0f;
+            inaccurateTargetPosition.x += (static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 0.5f) * 2.0f * inaccuracy;
+            inaccurateTargetPosition.y += (static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 0.5f) * 2.0f * inaccuracy;
+
+            AAShell* shell = new AAShell(position, inaccurateTargetPosition, AAGunDamage, this);
+            AAGunCooldown = 100;
+        }
     }
 
     // Shoot torpedo
-    if(hasTorpedo){
+    if(hasTorpedo && target != nullptr){
         if(torpedoCooldown > 0){
             torpedoCooldown--;
         }else{
@@ -119,12 +138,12 @@ void Ship::Shoot(Ship* target){
     }
 
     // Shoot depth charge
-    if(hasDepthCharge){
+    if(hasDepthCharge && dynamic_cast<Submarine*>(target) != nullptr && target != nullptr){
         // Shoot depth charge
     }
 }
 
-Ship Ship::isEnemyNear(){
+Ship* Ship::isEnemyNear(){
     Ship* nearestEnemy = nullptr;
     float nearestDistance = 1000000.0f;
 
@@ -138,12 +157,31 @@ Ship Ship::isEnemyNear(){
         }
     }
     if(nearestDistance < 100){
-        Shoot(nearestEnemy);
-        return *nearestEnemy;
+        return nearestEnemy;
     }
     else{
-        //printf("No enemy is near\n");
-        return *this; // return itself if no enemy is near
+        return nullptr;
+    }
+}
+
+Plane* Ship::isEnemyPlaneNear(){
+    Plane* nearestEnemy = nullptr;
+    float nearestDistance = 1000000.0f;
+
+    for(int i = 0; i < 10; i++){
+        if(planes[i] != nullptr && planes[i]->GetOwner()->GetTeam() != team){
+            float distance = Vector2Distance(position, planes[i]->GetPosition());
+            if(distance < nearestDistance && planes[i]->active){
+                nearestDistance = distance;
+                nearestEnemy = planes[i];
+            }
+        }
+    }
+    if(nearestDistance < 100){
+        return nearestEnemy;
+    }
+    else{
+        return nullptr;
     }
 }
 

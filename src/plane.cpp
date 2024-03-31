@@ -1,6 +1,5 @@
 #include "plane.hpp"
 
-
 #include "camera.h"
 #include "raylib.h"
 #include "raymath.h"
@@ -47,8 +46,9 @@ bool Plane::Update(){
 
         if(hp <= 0){
             active = false;
+            downed = true;
         }
-    }else{ // Simply ensure the plane stays in its carrier
+    }else if (!downed){ // Simply ensure the plane stays in its carrier
         SetPosition(owner->GetPosition());
         SetRotation(owner->GetRotation());
     }
@@ -121,12 +121,16 @@ Vector2 Plane::GetPosition(){
     return position;
 }
 
-
 Vector2 Plane::GetDimensions(){
     return { static_cast<float>(sprite.width), static_cast<float>(sprite.height) };
 }
+
 float Plane::GetRotation(){
     return rotation;
+}
+
+Carrier* Plane::GetOwner(){
+    return owner;
 }
 
 void Plane::SetPosition(Vector2 position){
@@ -147,4 +151,12 @@ void Plane::SetSquadron(Squadron* squadron){
 
 void Plane::SetTarget(Ship* target){
     this->target = target;
+}
+
+void Plane::SetHp(int hp){
+    this->hp = hp;
+}
+
+int Plane::GetHp(){
+    return hp;
 }

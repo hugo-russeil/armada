@@ -16,7 +16,7 @@ Destroyer::Destroyer(Vector2 position, int team) : Ship(position, team) {
     this->deckBatteryDamage = 10;
 
     this->hasAAGun = true;
-    this->AAGunDamage = 10;
+    this->AAGunDamage = 5;
 
     this->hasTorpedo = true;
     this->torpedoDamage = 15;

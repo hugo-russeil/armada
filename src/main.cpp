@@ -113,7 +113,7 @@ int main() {
                 }
 
                 for(planeIt = planes.begin(); planeIt != planes.end(); planeIt++){
-                    (*planeIt)->Update();
+                    if(!(*planeIt)->downed) (*planeIt)->Update();
                 }
 
                 BeginDrawing();

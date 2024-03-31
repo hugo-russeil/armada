@@ -76,15 +76,15 @@ void handleInput() {
     }
 
     if(selectedShip != nullptr){
-    if (IsKeyPressed(KEY_H)) {
-        selectedShip->SetTargetPosition(selectedShip->GetPosition());
-    }
-    Carrier* carrier = dynamic_cast<Carrier*>(selectedShip);
-    if(carrier != nullptr){
-        if (IsKeyPressed(KEY_B)) {
-            selectedSquadron = carrier->GetSquadron();
-            selectedShip = nullptr; // can't have two selected objects at once
+        if (IsKeyPressed(KEY_H)) {
+            selectedShip->SetTargetPosition(selectedShip->GetPosition());
         }
-    }         
-}
+        Carrier* carrier = dynamic_cast<Carrier*>(selectedShip);
+        if(carrier != nullptr){
+            if (IsKeyPressed(KEY_B)) {
+                selectedSquadron = carrier->GetSquadron();
+                selectedShip = nullptr; // can't have two selected objects at once
+            }
+        }         
+    }
 }
