@@ -32,7 +32,7 @@ void DrawRotatedRectangleLines(Vector2 position, Vector2 dimensions, float rotat
 }
 
 void displayShipsOutlines(){
-    for(int i = 0; i < shipCount; i++){
+    for(int i = 0; i < ships.size(); i++){
         DrawRotatedRectangleLines(ships[i]->GetPosition(), ships[i]->GetDimensions(), ships[i]->GetRotation() * DEG2RAD, RED);
     }
 }

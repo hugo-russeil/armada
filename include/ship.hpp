@@ -2,6 +2,7 @@
 #define SHIP_HPP
 
 #include <string>
+#include <vector>
 #include "raylib.h"
 
 class Plane; // forward declaration
@@ -10,7 +11,6 @@ class Ship {
     public:
         Ship(Vector2 position, int team);
         virtual ~Ship();
-        virtual void IndexShip();
         virtual void Update();
         virtual void Draw();
         virtual void Move(float deltaTime);
@@ -64,8 +64,7 @@ class Ship {
         int depthChargeDamage;
 };
 
-extern Ship* ships[10];
-extern int shipCount;
+extern std::vector<Ship*> ships; // vector to hold all the ships
 extern Ship* selectedShip;
 
 #endif // SHIP_HPP

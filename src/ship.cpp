@@ -13,26 +13,19 @@
 
 #include <iostream>
 
+std::vector<Ship*> ships;
+
 Ship::Ship(Vector2 position, int team) {
     this->position = position;
     this->targetPosition = position;
     this->team = team;
     if(team == 1) teamColour = Color{255, 220, 220, 255};
     else teamColour = Color{220, 220, 255, 255};
+    ships.push_back(this);
 }
 
 Ship::~Ship() {
 
-}
-
-void Ship::IndexShip(){ // add this ship to the ships array
-    for(int i = 0; i < 10; i++){
-        if(ships[i] == nullptr){
-            ships[i] = this;
-            break;
-        }
-    }
-    shipCount++;
 }
 
 void Ship::Update(){

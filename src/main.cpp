@@ -35,9 +35,6 @@ typedef enum gameStage {
 GameStage stage = MAIN_MENU;
 Camera2D camera;
 
-Ship* ships[10] = {nullptr};
-int shipCount = 0;
-
 ParticleSystem* particleSystem;
 
 bool debug = false;
@@ -55,46 +52,61 @@ int main() {
     particleSystem = new ParticleSystem();
 
     // Team 1 (Blue)
-    Cruiser* blueCruiser = new Cruiser(Vector2{200, 200}, 1);
-    blueCruiser->IndexShip();
+    Carrier* blueCarrier = new Carrier(Vector2{200, 200}, 1);
 
-    Destroyer* blueDestroyer = new Destroyer(Vector2{300, 200}, 1);
-    blueDestroyer->IndexShip();
+    Battleship* blueBattleship = new Battleship(Vector2{300, 200}, 1);
 
-    Battleship* blueBattleship = new Battleship(Vector2{400, 200}, 1);
-    blueBattleship->IndexShip();
+    Cruiser* blueCruiser1 = new Cruiser(Vector2{400, 200}, 1);
 
-    Carrier* blueCarrier = new Carrier(Vector2{500, 200}, 1);
-    blueCarrier->IndexShip();
+    Cruiser* blueCruiser2 = new Cruiser(Vector2{500, 200}, 1);
 
-    Submarine* blueSubmarine = new Submarine(Vector2{600, 200}, 1);
-    blueSubmarine->IndexShip();
+    Destroyer* blueDestroyer1 = new Destroyer(Vector2{600, 200}, 1);
+
+    Destroyer* blueDestroyer2 = new Destroyer(Vector2{700, 200}, 1);
+
+    Destroyer* blueDestroyer3 = new Destroyer(Vector2{800, 200}, 1);
+
+    Submarine* blueSubmarine1 = new Submarine(Vector2{900, 200}, 1);
+
+    Submarine* blueSubmarine2 = new Submarine(Vector2{1000, 200}, 1);
+
+    Submarine* blueSubmarine3 = new Submarine(Vector2{1100, 200}, 1);
 
     // Team 2 (Red)
-    Cruiser* redCruiser = new Cruiser(Vector2{200, 400}, 2);
-    redCruiser->SetRotation(180.0f);
-    redCruiser->IndexShip();
-
-    Destroyer* redDestroyer = new Destroyer(Vector2{300, 400}, 2);
-    redDestroyer->SetRotation(180.0f);
-    redDestroyer->IndexShip();
-
-    Battleship* redBattleship = new Battleship(Vector2{400, 400}, 2);
-    redBattleship->SetRotation(180.0f);
-    redBattleship->IndexShip();
-
-    Carrier* redCarrier = new Carrier(Vector2{500, 400}, 2);
+    Carrier* redCarrier = new Carrier(Vector2{200, 400}, 2);
     redCarrier->SetRotation(180.0f);
-    redCarrier->IndexShip();
 
-    Submarine* redSubmarine = new Submarine(Vector2{600, 400}, 2);
-    redSubmarine->SetRotation(180.0f);
-    redSubmarine->IndexShip();
+    Battleship* redBattleship = new Battleship(Vector2{300, 400}, 2);
+    redBattleship->SetRotation(180.0f);
+
+    Cruiser* redCruiser1 = new Cruiser(Vector2{400, 400}, 2);
+    redCruiser1->SetRotation(180.0f);
+
+    Cruiser* redCruiser2 = new Cruiser(Vector2{500, 400}, 2);
+    redCruiser2->SetRotation(180.0f);
+
+    Destroyer* redDestroyer1 = new Destroyer(Vector2{600, 400}, 2);
+    redDestroyer1->SetRotation(180.0f);
+
+    Destroyer* redDestroyer2 = new Destroyer(Vector2{700, 400}, 2);
+    redDestroyer2->SetRotation(180.0f);
+
+    Destroyer* redDestroyer3 = new Destroyer(Vector2{800, 400}, 2);
+    redDestroyer3->SetRotation(180.0f);
+
+    Submarine* redSubmarine1 = new Submarine(Vector2{900, 400}, 2);
+    redSubmarine1->SetRotation(180.0f);
+
+    Submarine* redSubmarine2 = new Submarine(Vector2{1000, 400}, 2);
+    redSubmarine2->SetRotation(180.0f);
+
+    Submarine* redSubmarine3 = new Submarine(Vector2{1100, 400}, 2);
+    redSubmarine3->SetRotation(180.0f);
 
     Squadron* blueSquadron = new Squadron(blueCarrier);
-
     Squadron* redSquadron = new Squadron(redCarrier);
 
+    std::vector<Ship*>::iterator shipIt;
     std::vector<Projectile*>::iterator it;
     std::vector<Plane*>::iterator planeIt;
     while (!WindowShouldClose()){
@@ -108,15 +120,13 @@ int main() {
 
                 handleInput();
 
-                for(int i = 0; i < shipCount; i++){
-                    ships[i]->Update();
+                for(shipIt = ships.begin(); shipIt != ships.end(); shipIt++){
+                    (*shipIt)->Update();
                 }
-
                 for(it = projectiles.begin(); it != projectiles.end();){
                     (*it)->active = (*it)->Update();
                     it++;
                 }
-
                 for(planeIt = planes.begin(); planeIt != planes.end(); planeIt++){
                     if(!(*planeIt)->downed) (*planeIt)->Update();
                 }
@@ -127,8 +137,8 @@ int main() {
                     ClearBackground(SEABLUE);
                     BeginMode2D(camera);
 
-                        for(int i = 0; i < shipCount; i++){
-                            ships[i]->Draw();
+                        for(shipIt = ships.begin(); shipIt != ships.end(); shipIt++){
+                            if((*shipIt)->active) (*shipIt)->Draw();
                         }
                         for(it = projectiles.begin(); it != projectiles.end(); ++it){
                             if((*it)->active) (*it)->Draw();

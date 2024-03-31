@@ -20,7 +20,7 @@ void handleInput() {
         Vector2 worldPoint;
         worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
         worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
-        for (int i = 0; i < shipCount; i++) {
+        for (int i = 0; i < ships.size(); i++) {
             if (ships[i]->isPointInside(worldPoint, camera)) {
                 selectedShip = ships[i];
                 std::cout << "Selected ship: " << selectedShip << std::endl;
@@ -42,7 +42,7 @@ void handleInput() {
             Vector2 worldPoint;
             worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
             worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
-            for (int i = 0; i < shipCount; i++) {
+            for (int i = 0; i < ships.size(); i++) {
                 if (ships[i]->isPointInside(worldPoint, camera) &&
                     ships[i]->GetTeam() != selectedSquadron->GetCarrier()->GetTeam() && // Ignore order to bomb an ally
                     ships[i]->GetHp() > 0 // Ignore order to bomb a sunken ship
