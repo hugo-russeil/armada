@@ -33,12 +33,14 @@ class Ship {
         int GetFuel();
         float GetRotation();
         int GetTeam();
+        Color GetTeamColour();
         virtual std::string GetClass();
         bool active = true;
         
     protected:
         Texture2D sprite;
-        int team; 
+        int team;
+        Color teamColour;
         Vector2 dimensions;
         Vector2 position;
         Vector2 targetPosition;

@@ -37,7 +37,7 @@ void Carrier::Draw() {
     Rectangle sourceRec = { 0.0f, 0.0f, (float)this->sprite.width, (float)this->sprite.height };
     Rectangle destRec = { drawPosition.x, drawPosition.y, (float)this->sprite.width, (float)this->sprite.height };
     float rotationInDegrees = this->rotation +180;
-    DrawTexturePro(this->sprite, sourceRec, destRec, origin, rotationInDegrees, WHITE);
+    DrawTexturePro(this->sprite, sourceRec, destRec, origin, rotationInDegrees, teamColour);
 
     if (this == selectedShip) {
 

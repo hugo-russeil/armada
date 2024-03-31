@@ -17,6 +17,8 @@ Ship::Ship(Vector2 position, int team) {
     this->position = position;
     this->targetPosition = position;
     this->team = team;
+    if(team == 1) teamColour = Color{255, 220, 220, 255};
+    else teamColour = Color{220, 220, 255, 255};
 }
 
 Ship::~Ship() {
@@ -249,6 +251,10 @@ float Ship::GetRotation(){
 
 int Ship::GetTeam(){
     return team;
+}
+
+Color Ship::GetTeamColour(){
+    return teamColour;
 }
 
 std::string Ship::GetClass(){
