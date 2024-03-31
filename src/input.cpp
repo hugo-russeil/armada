@@ -44,7 +44,10 @@ void handleInput() {
             worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
             worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
             for (int i = 0; i < shipCount; i++) {
-                if (ships[i]->isPointInside(worldPoint, camera)) {
+                if (ships[i]->isPointInside(worldPoint, camera) &&
+                    ships[i]->GetTeam() != selectedSquadron->GetCarrier()->GetTeam() && // Ignore order to bomb an ally
+                    ships[i]->GetHp() > 0 // Ignore order to bomb a sunken ship
+                ){
                     Ship* target = ships[i];
                     selectedSquadron->Deploy(target);
                     break;

@@ -64,6 +64,10 @@ int Squadron::GetPlaneCount() {
     return planeCount;
 }
 
+Carrier* Squadron::GetCarrier() {
+    return carrier;
+}
+
 void Squadron::SetActivePlanes(int activePlanes) {
     this->activePlanes = activePlanes;
 }

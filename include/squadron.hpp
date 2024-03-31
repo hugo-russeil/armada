@@ -16,6 +16,7 @@ class Squadron {
         void setTarget(Ship* target);
         int GetActivePlanes();
         int GetPlaneCount();
+        Carrier* GetCarrier();
         void SetActivePlanes(int activePlanes);
         void SetPlaneCount(int planeCount);
         std::vector<Plane*> GetSquadronPlanes();

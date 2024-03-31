@@ -24,11 +24,11 @@ bool Plane::Update(){
         
         Rotate(GetFrameTime());
 
-        if(bombCount > 0){
+        if(bombCount > 0 && target->GetHp() > 0){
             // If the plane has bombs, set target to the enemy ship
             SetTargetPosition(target->GetPosition());
             // If the plane is close to the target, drop a bomb
-            if(Vector2Distance(position, target->GetPosition()) < 10){
+            if(Vector2Distance(position, target->GetPosition()) < 10 && target->GetHp() > 0){
                 DropBomb(target);
                 SetTargetPosition(owner->GetPosition()); // Immediately assigning a new destination to ensure the plane doesn't stop midair
             }
