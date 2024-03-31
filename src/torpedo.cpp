@@ -1,6 +1,7 @@
 #include "torpedo.hpp"
 #include "camera.h"
 #include "raymath.h"
+#include "particleSystem.hpp"
 
 Torpedo::Torpedo(Vector2 position, Vector2 targetPosition, int damage, Ship* owner) : Projectile(position, targetPosition, damage, owner){
     this->position = position;
@@ -32,9 +33,11 @@ bool Torpedo::Update(){
             targetPosition = position;
             velocity = {0, 0};
             // Projectile has reached its target, it should be deleted
+            particleSystem->Explode(position, 10); // Create an explosion at the target position
             active = false;
         }
         if(hasHitShip()){
+            particleSystem->Explode(position, 10); // Create an explosion at the target position
             active = false;
         }
     }

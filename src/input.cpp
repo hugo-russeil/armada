@@ -13,7 +13,6 @@ Ship* selectedShip = nullptr;
 Squadron* selectedSquadron = nullptr;
 
 void handleInput() {
-
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         selectedShip = nullptr;
         selectedSquadron = nullptr;

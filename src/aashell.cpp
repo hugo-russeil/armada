@@ -2,6 +2,7 @@
 #include "camera.h"
 #include "plane.hpp"
 #include "raymath.h"
+#include "particleSystem.hpp"
 
 #include <iostream>
 
@@ -37,10 +38,13 @@ bool AAShell::Update(){
         else{
             targetPosition = position;
             velocity = {0, 0};
+            particleSystem->Explode(position, 10); // Create an explosion at the target position
             // Projectile has reached its target, it should be deleted
+
             active = false;
         }
         if(hasHitAircraft()){
+            particleSystem->Explode(position, 10); // Create an explosion at the target position
             active = false;
         }
     }

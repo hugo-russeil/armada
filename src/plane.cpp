@@ -1,8 +1,7 @@
 #include "plane.hpp"
 
 #include "camera.h"
-#include "raylib.h"
-#include "raymath.h"
+#include "particleSystem.hpp"
 #include "squadron.hpp"
 
 std::vector<Plane*> planes; // Vector to hold all the planes
@@ -104,6 +103,13 @@ void Plane::DropBomb(Ship* target){
     if(bombCount > 0){
         bombCount--;
         target->SetHp(target->GetHp() - damage);
+
+        // Add a random offset to the position
+        Vector2 explosionPosition = position;
+        explosionPosition.x += GetRandomValue(-5, 5);
+        explosionPosition.y += GetRandomValue(-5, 5);
+
+        particleSystem->Explode(explosionPosition, 20);
     }
 }
 

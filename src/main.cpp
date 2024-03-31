@@ -9,6 +9,7 @@ extern "C" {
 #include "input.hpp"
 #include "debug.hpp"
 #include "mainMenu.hpp"
+#include "particleSystem.hpp"
 #include "projectile.hpp"
 
 // Include the ship classes
@@ -37,6 +38,8 @@ Camera2D camera;
 Ship* ships[10] = {nullptr};
 int shipCount = 0;
 
+ParticleSystem* particleSystem;
+
 bool debug = false;
 
 int main() {
@@ -48,6 +51,8 @@ int main() {
     SetTargetFPS(60);
 
     setupCamera(&camera);
+
+    particleSystem = new ParticleSystem();
 
     // Team 1 (Blue)
     Cruiser* blueCruiser = new Cruiser(Vector2{200, 200}, 1);
@@ -116,6 +121,8 @@ int main() {
                     if(!(*planeIt)->downed) (*planeIt)->Update();
                 }
 
+                particleSystem->Update();
+
                 BeginDrawing();
                     ClearBackground(SEABLUE);
                     BeginMode2D(camera);
@@ -126,6 +133,7 @@ int main() {
                         for(it = projectiles.begin(); it != projectiles.end(); ++it){
                             if((*it)->active) (*it)->Draw();
                         }
+                        particleSystem->Draw();
                         for(planeIt = planes.begin(); planeIt != planes.end(); ++planeIt){
                             if((*planeIt)->active) (*planeIt)->Draw();
                         }
