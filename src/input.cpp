@@ -115,20 +115,35 @@ void handleInput() {
 
     camera.zoom = newZoom;
 
-    if (IsKeyPressed(KEY_GRAVE)) {
+    if (IsKeyPressed(KEY_GRAVE)) { // ` key (or ² key if you're using an AZERTY keyboard, the key above TAB, left to 1 anyway)
         debug = !debug;
     }
 
     if(selectedShip != nullptr){
-        if (IsKeyPressed(KEY_H)) {
+        if (IsKeyPressed(KEY_H)) { // H for "hold"
             selectedShip->SetTargetPosition(selectedShip->GetPosition());
         }
         Carrier* carrier = dynamic_cast<Carrier*>(selectedShip);
         if(carrier != nullptr){
-            if (IsKeyPressed(KEY_B)) {
+            if (IsKeyPressed(KEY_B)) { // idk why B, it seemed like a good key
                 selectedSquadron = carrier->GetSquadron();
                 selectedShip = nullptr; // can't have two selected objects at once
             }
         }         
+    }
+
+    if(selectedSquadron != nullptr){
+        if (IsKeyPressed(KEY_K)) {
+            for (int i = 0; i < selectedSquadron->GetSquadronPlanes().size(); i++) {
+                selectedSquadron->GetSquadronPlanes()[i]->SetOneWayTrip(true);
+            }
+        }
+        if (IsKeyPressed(KEY_H)) { // H for "hold"
+            selectedSquadron->SetDeploying(false);
+            for (int i = 0; i < selectedSquadron->GetSquadronPlanes().size(); i++) {
+                if(selectedSquadron->GetSquadronPlanes()[i]->active)
+                    selectedSquadron->GetSquadronPlanes()[i]->SetRetreat(true);
+            }
+        }
     }
 }

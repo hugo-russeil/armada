@@ -19,25 +19,44 @@ Plane::~Plane(){
 }
 
 bool Plane::Update(){
+    if(downed) return false; // If the plane has been shot down, it should not be updated
     if(active){
         
         Rotate(GetFrameTime());
-
-        if(bombCount > 0 && target->GetHp() > 0){
-            // If the plane has bombs, set target to the enemy ship
-            SetTargetPosition(target->GetPosition());
-            // If the plane is close to the target, drop a bomb
-            if(Vector2Distance(position, target->GetPosition()) < 10 && target->GetHp() > 0){
-                DropBomb(target);
-                SetTargetPosition(owner->GetPosition()); // Immediately assigning a new destination to ensure the plane doesn't stop midair
+        
+        if(!oneWayTrip){
+            if(bombCount > 0 && target->GetHp() > 0 && !retreat){
+                // If the plane has bombs, set target to the enemy ship
+                SetTargetPosition(target->GetPosition());
+                // If the plane is close to the target, drop a bomb
+                if(Vector2Distance(position, target->GetPosition()) < 10 && target->GetHp() > 0){
+                    DropBomb(target);
+                    SetTargetPosition(owner->GetPosition()); // Immediately assigning a new destination to ensure the plane doesn't stop midair
+                }
+            } else {
+                // If the plane has no bombs left, or no valid target, or has been ordered to retreat, return to the carrier
+                SetTargetPosition(owner->GetPosition());
+                if(Vector2Distance(position, owner->GetPosition()) < 10){ // The plane has returned to the carrier, stand down
+                    squadron->SetActivePlanes(squadron->GetActivePlanes() - 1); // Decrement the active planes counter
+                    active = false;
+                    retreat = false; // Reset the retreat flag
+                    bombCount = 4; // Rearm the plane
+                }
             }
-        } else {
-            // If the plane has no bombs left, return to the carrier
-            SetTargetPosition(owner->GetPosition());
-            if(Vector2Distance(position, owner->GetPosition()) < 10){ // The plane has returned to the carrier, stand down
-                squadron->SetActivePlanes(squadron->GetActivePlanes() - 1); // Decrement the active planes counter
-                active = false;
-                bombCount = 4; // Rearm the plane
+        }else{
+            // If the plane has no valid target, it must find another
+            if(target->GetHp() < 1){
+                Ship* newTarget = GetNearestEnemy();
+                if(newTarget != nullptr){
+                    SetTarget(newTarget);
+                    SetTargetPosition(newTarget->GetPosition());
+                }
+            }
+            
+            SetTargetPosition(target->GetPosition());
+
+            if(Vector2Distance(position, target->GetPosition()) < 10 && target->GetHp() > 0){
+                DivineWind();
             }
         }
 
@@ -47,14 +66,16 @@ bool Plane::Update(){
             active = false;
             downed = true;
         }
-    }else if (!downed){ // Simply ensure the plane stays in its carrier
-        SetPosition(owner->GetPosition());
-        SetRotation(owner->GetRotation());
+    }else if (!downed){
+        SetPosition(owner->GetPosition()); // Simply ensure the plane stays in its carrier
+        SetRotation(owner->GetRotation()); // Ensure the plane is facing the same direction as the carrier
+        // Repair the plane ?
     }
     return active;
 }
 
 void Plane::Move(float deltaTime){
+    if(!active || downed) return;
     Vector2 direction = Vector2Subtract(targetPosition, position);
     float distance = Vector2Length(direction);
 
@@ -75,6 +96,7 @@ void Plane::Move(float deltaTime){
 }
 
 void Plane::Rotate(float deltaTime){
+    if(!active || downed) return;
     if(position.x != targetPosition.x || position.y != targetPosition.y){
         Vector2 direction = Vector2Subtract(targetPosition, position);
         float targetRotation = atan2(direction.y, direction.x) * RAD2DEG - 90.0f;
@@ -113,14 +135,37 @@ void Plane::DropBomb(Ship* target){
     }
 }
 
+void Plane::DivineWind(){
+    target->SetHp(target->GetHp() - 50);
+    hp = 0;
+    active = false;
+    downed = true;
+    particleSystem->Explode(target->GetPosition(), 50);
+}
+
 void Plane::Draw(){
-    if(!active) return;
+    if(!active || downed) return;
     Vector2 drawPosition = this->position;
     Vector2 origin = { static_cast<float>(this->sprite.width) / 2.0f, static_cast<float>(this->sprite.height) / 2.0f };
     Rectangle sourceRec = { 0.0f, 0.0f, (float)this->sprite.width, (float)this->sprite.height };
     Rectangle destRec = { drawPosition.x, drawPosition.y, (float)this->sprite.width, (float)this->sprite.height };
     float rotationInDegrees = this->rotation +180;
     DrawTexturePro(this->sprite, sourceRec, destRec, origin, rotationInDegrees, owner->GetTeamColour());
+}
+
+Ship* Plane::GetNearestEnemy(){
+    Ship* nearestEnemy = nullptr;
+    float nearestDistance = 9999999.0f;
+    for(Ship* ship : ships){
+        if(ship->GetTeam() != owner->GetTeam() && ship->GetHp() > 0){
+            float distance = Vector2Distance(position, ship->GetPosition());
+            if(distance < nearestDistance){
+                nearestDistance = distance;
+                nearestEnemy = ship;
+            }
+        }
+    }
+    return nearestEnemy;
 }
 
 Vector2 Plane::GetPosition(){
@@ -161,6 +206,14 @@ void Plane::SetTarget(Ship* target){
 
 void Plane::SetHp(int hp){
     this->hp = hp;
+}
+
+void Plane::SetRetreat(bool retreat){
+    this->retreat = retreat;
+}
+
+void Plane::SetOneWayTrip(bool oneWayTrip){
+    this->oneWayTrip = oneWayTrip;
 }
 
 int Plane::GetHp(){

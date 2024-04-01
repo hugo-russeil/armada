@@ -16,10 +16,12 @@ public:
     void Move(float deltaTime);
     void Rotate(float deltaTime);
     void DropBomb(Ship* target);
+    void DivineWind(); // if you know, you know...
     void Draw();
     bool active = true;
     bool downed = false;
 
+    Ship* GetNearestEnemy();
     Vector2 GetPosition();
     Vector2 GetDimensions();
     float GetRotation();
@@ -30,6 +32,8 @@ public:
     void SetSquadron(Squadron* squadron);
     void SetTarget(Ship* target);
     void SetHp(int hp);
+    void SetRetreat(bool retreat);
+    void SetOneWayTrip(bool oneWayTrip);
     int GetHp();
 private:
     Squadron* squadron;
@@ -41,6 +45,8 @@ private:
     int hp = 50;
     int bombCount = 4;
     int damage;
+    bool retreat = false; // if true, the plane will return to the carrier
+    bool oneWayTrip = false; // if true, the plane will... not be coming back
     Carrier* owner;
     Ship* target;
 };

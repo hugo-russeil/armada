@@ -42,6 +42,7 @@ void Squadron::Update() {
     }
     // Check for downed planes and delete them
     for (int i = 0; i < squadronPlanes.size(); i++) {
+        squadronPlanes[i]->SetTarget(target);
         if (squadronPlanes[i]->downed) {
             delete squadronPlanes[i];
             squadronPlanes.erase(squadronPlanes.begin() + i);
@@ -74,6 +75,10 @@ void Squadron::SetActivePlanes(int activePlanes) {
 
 void Squadron::SetPlaneCount(int planeCount) {
     this->planeCount = planeCount;
+}
+
+void Squadron::SetDeploying(bool deploying) {
+    this->deploying = deploying;
 }
 
 std::vector<Plane*> Squadron::GetSquadronPlanes() {

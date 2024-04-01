@@ -19,6 +19,7 @@ class Squadron {
         Carrier* GetCarrier();
         void SetActivePlanes(int activePlanes);
         void SetPlaneCount(int planeCount);
+        void SetDeploying(bool deploying);
         std::vector<Plane*> GetSquadronPlanes();
     private:
         std::vector<Plane*> squadronPlanes;

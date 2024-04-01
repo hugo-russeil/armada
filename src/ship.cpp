@@ -164,9 +164,9 @@ Plane* Ship::isEnemyPlaneNear(){
     float nearestDistance = 1000000.0f;
 
     for(int i = 0; i < 10; i++){
-        if(planes[i] != nullptr && planes[i]->GetOwner()->GetTeam() != team){
+        if(planes[i] != nullptr && planes[i]->GetOwner()->GetTeam() != team && planes[i]->GetHp() > 0){
             float distance = Vector2Distance(position, planes[i]->GetPosition());
-            if(distance < nearestDistance && planes[i]->active){
+            if(distance < nearestDistance){
                 nearestDistance = distance;
                 nearestEnemy = planes[i];
             }

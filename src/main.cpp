@@ -152,6 +152,9 @@ int main() {
                     if(!(*planeIt)->downed) (*planeIt)->Update();
                 }
 
+                redSquadron->Update();
+                blueSquadron->Update();
+
                 particleSystem->Update();
 
                 BeginDrawing();
@@ -168,9 +171,6 @@ int main() {
                         for(planeIt = planes.begin(); planeIt != planes.end(); ++planeIt){
                             if((*planeIt)->active) (*planeIt)->Draw();
                         }
-
-                        redSquadron->Update();
-                        blueSquadron->Update();
                         
                         if(debug){
                             displayShipsOutlines();

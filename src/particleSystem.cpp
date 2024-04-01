@@ -36,6 +36,6 @@ void ParticleSystem::Update() {
 
 void ParticleSystem::Draw() {
     for (Particle& particle : particles) {
-        DrawCircleV(particle.position, 1, ORANGE);
+        DrawPoly(particle.position, 4, 1, 45, ORANGE);
     }
 }

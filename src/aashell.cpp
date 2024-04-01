@@ -19,7 +19,6 @@ AAShell::~AAShell(){
 }
 
 bool AAShell::Update(){
-    std::cout << "AAShell::Update()" << std::endl;
     if(active){
         Vector2 direction = Vector2Subtract(targetPosition, position);
         float distance = Vector2Length(direction);
