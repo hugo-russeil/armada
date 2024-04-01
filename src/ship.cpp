@@ -202,6 +202,10 @@ bool Ship::isPointInside(Vector2 point, Camera2D camera) {
 
 // ========== Setters ==========
 
+void Ship::SetPosition(Vector2 position){
+    this->position = position;
+}
+
 void Ship::SetTargetPosition(Vector2 targetPosition){
     this->targetPosition = targetPosition;
 }

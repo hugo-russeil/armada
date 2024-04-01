@@ -21,6 +21,7 @@ class Ship {
 
         bool isPointInside(Vector2 point, Camera2D camera);
 
+        void SetPosition(Vector2 position);
         void SetTargetPosition(Vector2 targetPosition);
         void SetRotation(float rotation);
         void SetHp(int hp);

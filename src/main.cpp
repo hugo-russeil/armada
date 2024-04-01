@@ -11,6 +11,7 @@ extern "C" {
 #include "mainMenu.hpp"
 #include "particleSystem.hpp"
 #include "projectile.hpp"
+#include "team.hpp"
 
 // Include the ship classes
 #include "carrier.hpp"
@@ -27,6 +28,7 @@ extern "C" {
 
 typedef enum gameStage {
     MAIN_MENU,
+    STAGING, // Staging phase where players can place their ships
     GAMEPLAY,
     GAME_OVER
 } GameStage;
@@ -43,7 +45,7 @@ int main() {
     const int screenWidth = GetMonitorWidth(0);
     const int screenHeight = GetMonitorHeight(0);
 
-    InitWindow(screenWidth, screenHeight, "Flattops");
+    InitWindow(screenWidth, screenHeight, "Navy stuff idk name later");
 
     SetTargetFPS(60);
 
@@ -73,34 +75,34 @@ int main() {
     Submarine* blueSubmarine3 = new Submarine(Vector2{1100, 200}, 1);
 
     // Team 2 (Red)
-    Carrier* redCarrier = new Carrier(Vector2{200, 400}, 2);
+    Carrier* redCarrier = new Carrier(Vector2{200, 1000}, 2);
     redCarrier->SetRotation(180.0f);
 
-    Battleship* redBattleship = new Battleship(Vector2{300, 400}, 2);
+    Battleship* redBattleship = new Battleship(Vector2{300, 1000}, 2);
     redBattleship->SetRotation(180.0f);
 
-    Cruiser* redCruiser1 = new Cruiser(Vector2{400, 400}, 2);
+    Cruiser* redCruiser1 = new Cruiser(Vector2{400, 1000}, 2);
     redCruiser1->SetRotation(180.0f);
 
-    Cruiser* redCruiser2 = new Cruiser(Vector2{500, 400}, 2);
+    Cruiser* redCruiser2 = new Cruiser(Vector2{500, 1000}, 2);
     redCruiser2->SetRotation(180.0f);
 
-    Destroyer* redDestroyer1 = new Destroyer(Vector2{600, 400}, 2);
+    Destroyer* redDestroyer1 = new Destroyer(Vector2{600, 1000}, 2);
     redDestroyer1->SetRotation(180.0f);
 
-    Destroyer* redDestroyer2 = new Destroyer(Vector2{700, 400}, 2);
+    Destroyer* redDestroyer2 = new Destroyer(Vector2{700, 1000}, 2);
     redDestroyer2->SetRotation(180.0f);
 
-    Destroyer* redDestroyer3 = new Destroyer(Vector2{800, 400}, 2);
+    Destroyer* redDestroyer3 = new Destroyer(Vector2{800, 1000}, 2);
     redDestroyer3->SetRotation(180.0f);
 
-    Submarine* redSubmarine1 = new Submarine(Vector2{900, 400}, 2);
+    Submarine* redSubmarine1 = new Submarine(Vector2{900, 1000}, 2);
     redSubmarine1->SetRotation(180.0f);
 
-    Submarine* redSubmarine2 = new Submarine(Vector2{1000, 400}, 2);
+    Submarine* redSubmarine2 = new Submarine(Vector2{1000, 1000}, 2);
     redSubmarine2->SetRotation(180.0f);
 
-    Submarine* redSubmarine3 = new Submarine(Vector2{1100, 400}, 2);
+    Submarine* redSubmarine3 = new Submarine(Vector2{1100, 1000}, 2);
     redSubmarine3->SetRotation(180.0f);
 
     Squadron* blueSquadron = new Squadron(blueCarrier);
@@ -114,6 +116,25 @@ int main() {
         switch (stage) {
             case MAIN_MENU:
                 mainMenu();
+                if (IsKeyPressed(KEY_ENTER)) stage = STAGING;
+                break;
+            case STAGING:
+                stagingInput();
+
+                for(shipIt = ships.begin(); shipIt != ships.end(); shipIt++){
+                    (*shipIt)->Update();
+                }
+
+                BeginDrawing();
+                    ClearBackground(SEABLUE);
+                    BeginMode2D(camera);
+
+                        for(shipIt = ships.begin(); shipIt != ships.end(); shipIt++){
+                            (*shipIt)->Draw();
+                        }
+                    EndMode2D();
+                EndDrawing();
+
                 if (IsKeyPressed(KEY_ENTER)) stage = GAMEPLAY;
                 break;
             case GAMEPLAY:
