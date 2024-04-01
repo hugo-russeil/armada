@@ -29,7 +29,7 @@ bool Plane::Update(){
                 // If the plane has bombs, set target to the enemy ship
                 SetTargetPosition(target->GetPosition());
                 // If the plane is close to the target, drop a bomb
-                if(Vector2Distance(position, target->GetPosition()) < 10 && target->GetHp() > 0){
+                if(Vector2Distance(position, target->GetPosition()) < 2.0f && target->GetHp() > 0){
                     DropBomb(target);
                     SetTargetPosition(owner->GetPosition()); // Immediately assigning a new destination to ensure the plane doesn't stop midair
                 }
@@ -55,7 +55,7 @@ bool Plane::Update(){
             
             SetTargetPosition(target->GetPosition());
 
-            if(Vector2Distance(position, target->GetPosition()) < 10 && target->GetHp() > 0){
+            if(Vector2Distance(position, target->GetPosition()) < 2 && target->GetHp() > 0){
                 DivineWind();
             }
         }
@@ -79,7 +79,7 @@ void Plane::Move(float deltaTime){
     Vector2 direction = Vector2Subtract(targetPosition, position);
     float distance = Vector2Length(direction);
 
-    if(distance > 10.0f){ // 10.0f is the threshold value for the plane to stop moving
+    if(distance > 2.0f){ // 5.0f is the threshold value for the plane to stop moving
         float speed = 20.0f; // Twice the speed of the ships, so they cannot flee from the planes forever
         float rotationInRadians = (rotation + 90) * DEG2RAD; // adjust rotation and convert to radians
         velocity.x = cos(rotationInRadians) * speed;
@@ -140,7 +140,7 @@ void Plane::DivineWind(){
     hp = 0;
     active = false;
     downed = true;
-    particleSystem->Explode(target->GetPosition(), 50);
+    particleSystem->Explode(position, 50);
 }
 
 void Plane::Draw(){
