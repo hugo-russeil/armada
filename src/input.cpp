@@ -135,14 +135,14 @@ void handleInput() {
     if(selectedSquadron != nullptr){
         if (IsKeyPressed(KEY_K)) {
             for (int i = 0; i < selectedSquadron->GetSquadronPlanes().size(); i++) {
-                selectedSquadron->GetSquadronPlanes()[i]->SetOneWayTrip(true);
+                selectedSquadron->GetSquadronPlanes()[i]->SetOneWayTrip();
             }
         }
         if (IsKeyPressed(KEY_H)) { // H for "hold"
             selectedSquadron->SetDeploying(false);
             for (int i = 0; i < selectedSquadron->GetSquadronPlanes().size(); i++) {
                 if(selectedSquadron->GetSquadronPlanes()[i]->active)
-                    selectedSquadron->GetSquadronPlanes()[i]->SetRetreat(true);
+                    selectedSquadron->GetSquadronPlanes()[i]->SetRetreat();
             }
         }
     }

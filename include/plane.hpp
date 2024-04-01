@@ -32,8 +32,8 @@ public:
     void SetSquadron(Squadron* squadron);
     void SetTarget(Ship* target);
     void SetHp(int hp);
-    void SetRetreat(bool retreat);
-    void SetOneWayTrip(bool oneWayTrip);
+    void SetRetreat();
+    void SetOneWayTrip();
     int GetHp();
 private:
     Squadron* squadron;

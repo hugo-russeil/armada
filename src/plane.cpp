@@ -20,6 +20,15 @@ Plane::~Plane(){
 
 bool Plane::Update(){
     if(downed) return false; // If the plane has been shot down, it should not be updated
+
+    // Check if plane has sunk with its carrier
+    if(owner->GetHp() < 1){
+        hp = 0;
+        active = false;
+        downed = true;
+        return false;
+    }
+
     if(active){
         
         Rotate(GetFrameTime());
@@ -35,12 +44,14 @@ bool Plane::Update(){
                 }
             } else {
                 // If the plane has no bombs left, or no valid target, or has been ordered to retreat, return to the carrier
-                SetTargetPosition(owner->GetPosition());
-                if(Vector2Distance(position, owner->GetPosition()) < 10){ // The plane has returned to the carrier, stand down
-                    squadron->SetActivePlanes(squadron->GetActivePlanes() - 1); // Decrement the active planes counter
-                    active = false;
-                    retreat = false; // Reset the retreat flag
-                    bombCount = 4; // Rearm the plane
+                if(owner->GetHp() > 0){
+                    SetTargetPosition(owner->GetPosition());
+                    if(Vector2Distance(position, owner->GetPosition()) < 10){ // The plane has returned to the carrier, stand down
+                        squadron->SetActivePlanes(squadron->GetActivePlanes() - 1); // Decrement the active planes counter
+                        active = false;
+                        retreat = false; // Reset the retreat flag
+                        bombCount = 4; // Rearm the plane
+                    }
                 }
             }
         }else{
@@ -208,12 +219,14 @@ void Plane::SetHp(int hp){
     this->hp = hp;
 }
 
-void Plane::SetRetreat(bool retreat){
-    this->retreat = retreat;
+void Plane::SetRetreat(){
+    this->oneWayTrip = false;
+    this->retreat = !retreat;
 }
 
-void Plane::SetOneWayTrip(bool oneWayTrip){
-    this->oneWayTrip = oneWayTrip;
+void Plane::SetOneWayTrip(){
+    this->retreat = false;
+    this->oneWayTrip = !oneWayTrip;
 }
 
 int Plane::GetHp(){
