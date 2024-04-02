@@ -54,12 +54,15 @@ class Ship {
 
         bool hasDeckBattery;
         int deckBatteryDamage;
+        int batteryCooldown = 0;
 
         bool hasAAGun;
         int AAGunDamage;
+        int AAGunCooldown = 0;
 
         bool hasTorpedo;
         int torpedoDamage;
+        int torpedoCooldown = 0;
 
         bool hasDepthCharge;
         int depthChargeDamage;

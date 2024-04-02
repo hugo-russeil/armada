@@ -90,18 +90,15 @@ void Ship::Rotate(float deltaTime){
 }
 
 void Ship::Shoot(Ship* target, Plane* airTarget){
-    static int batteryCooldown = 200;
-    static int AAGunCooldown = 200;
-    static int torpedoCooldown = 300;
     // Shoot deck battery
     if(hasDeckBattery && 
-       dynamic_cast<Submarine*>(target) == nullptr && // A deck battery would be ineffective against a submarine (source : i said so)
+       dynamic_cast<Submarine*>(target) == nullptr && // A deck battery would be ineffective against a submarine (source : I said so)
        target != nullptr){ 
         if(batteryCooldown > 0){
             batteryCooldown--;
         }else{
             Shell* shell = new Shell(position, target->position, deckBatteryDamage, this);
-            batteryCooldown = 100;
+            batteryCooldown = 200;
         }
     }
 
@@ -118,7 +115,7 @@ void Ship::Shoot(Ship* target, Plane* airTarget){
             inaccurateTargetPosition.y += (static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 0.5f) * 2.0f * inaccuracy;
 
             AAShell* shell = new AAShell(position, inaccurateTargetPosition, AAGunDamage, this);
-            AAGunCooldown = 100;
+            AAGunCooldown = 200;
         }
     }
 
@@ -128,7 +125,7 @@ void Ship::Shoot(Ship* target, Plane* airTarget){
             torpedoCooldown--;
         }else{
             Torpedo* torpedo = new Torpedo(position, target->position, torpedoDamage, this);
-            torpedoCooldown = 200;
+            torpedoCooldown = 300;
         }
     }
 
@@ -142,8 +139,8 @@ Ship* Ship::isEnemyNear(){
     Ship* nearestEnemy = nullptr;
     float nearestDistance = 1000000.0f;
 
-    for(int i = 0; i < 10; i++){
-        if(ships[i] != nullptr && ships[i]->team != team){
+    for(int i = 0; i < ships.size(); i++){
+        if(ships[i] != nullptr && ships[i]->GetTeam() != team){
             float distance = Vector2Distance(position, ships[i]->position);
             if(distance < nearestDistance && ships[i]->active){
                 nearestDistance = distance;
@@ -163,10 +160,10 @@ Plane* Ship::isEnemyPlaneNear(){
     Plane* nearestEnemy = nullptr;
     float nearestDistance = 1000000.0f;
 
-    for(int i = 0; i < 10; i++){
-        if(planes[i] != nullptr && planes[i]->GetOwner()->GetTeam() != team && planes[i]->GetHp() > 0 && planes[i]->active){
+    for(int i = 0; i < planes.size(); i++){
+        if(planes[i] != nullptr && planes[i]->GetOwner()->GetTeam() != team && planes[i]->GetHp() > 0){
             float distance = Vector2Distance(position, planes[i]->GetPosition());
-            if(distance < nearestDistance){
+            if(distance < nearestDistance && planes[i]->active){
                 nearestDistance = distance;
                 nearestEnemy = planes[i];
             }
