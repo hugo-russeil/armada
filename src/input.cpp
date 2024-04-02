@@ -15,6 +15,14 @@ Squadron* selectedSquadron = nullptr;
 TaskForce* selectedTaskForce = nullptr;
 std::vector<Ship*> multipleSelection = std::vector<Ship*>();
 
+void clearSelection() {
+    selectedShip = nullptr;
+    selectedSquadron = nullptr;
+    selectedTaskForce = nullptr;
+    multipleSelection.clear();
+}
+
+// Input for the staging phase
 void stagingInput() {
     Vector2 mousePosition = GetMousePosition();
     Vector2 worldPoint;
@@ -32,14 +40,13 @@ void stagingInput() {
         }
     }
 
-    if (IsMouseButtonReleased(MOUSE_RIGHT_BUTTON) && selectedShip != nullptr) {
+    if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && selectedShip != nullptr) {
         selectedShip->SetPosition(worldPoint);
         selectedShip->SetTargetPosition(worldPoint); // Also setting target position to prevent ships from moving back to their original position
-        std::cout << "Moved ship to: " << worldPoint.x << ", " << worldPoint.y << std::endl;
     }
 
-        Vector2 mouseDelta = GetMouseDelta();
-    if (IsMouseButtonDown(MOUSE_MIDDLE_BUTTON) || IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
+    Vector2 mouseDelta = GetMouseDelta();
+    if (IsMouseButtonDown(MOUSE_MIDDLE_BUTTON) || (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && selectedShip == nullptr)) { // Right click doesn't move the camera if dragging a ship
         camera.target.x -= mouseDelta.x / camera.zoom;
         camera.target.y -= mouseDelta.y / camera.zoom;
     }
@@ -57,13 +64,11 @@ void stagingInput() {
     camera.zoom = newZoom;
 }
 
+// Input for the main game phase
 void handleInput() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         if(!IsKeyDown(KEY_LEFT_SHIFT) && !IsKeyDown(KEY_RIGHT_SHIFT)){
-            selectedShip = nullptr;
-            multipleSelection.clear();
-            selectedSquadron = nullptr;
-            selectedTaskForce = nullptr;
+            clearSelection();
         }
         Vector2 mousePosition = GetMousePosition();
         Vector2 worldPoint;
@@ -140,30 +145,24 @@ void handleInput() {
 
     camera.zoom = newZoom;
 
+    //========================================| Keyboard shortcuts |========================================//
+
     if (IsKeyPressed(KEY_GRAVE)) { // ` key (or ² key if you're using an AZERTY keyboard, the key above TAB, left to 1 anyway)
         debug = !debug;
     }
 
-    if(selectedShip != nullptr){
-        if (IsKeyPressed(KEY_H)) { // H for "hold"
+    if (IsKeyPressed(KEY_H)) { // H for "hold"
+        if(selectedShip != nullptr){
             selectedShip->SetTargetPosition(selectedShip->GetPosition());
         }
-        Carrier* carrier = dynamic_cast<Carrier*>(selectedShip);
-        if(carrier != nullptr){
-            if (IsKeyPressed(KEY_B)) { // idk why B, it seemed like a good key
-                selectedSquadron = carrier->GetSquadron();
-                selectedShip = nullptr; // can't have two selected objects at once
-            }
-        }         
-    }
-
-    if(selectedSquadron != nullptr){
-        if (IsKeyPressed(KEY_K)) {
-            for (int i = 0; i < selectedSquadron->GetSquadronPlanes().size(); i++) {
-                selectedSquadron->GetSquadronPlanes()[i]->SetOneWayTrip();
+        // If a task force is selected, order all ships to hold position
+        else if(selectedTaskForce != nullptr){
+            for (int i = 0; i < selectedTaskForce->ships.size(); i++) {
+                selectedTaskForce->ships[i]->SetTargetPosition(selectedTaskForce->ships[i]->GetPosition());
             }
         }
-        if (IsKeyPressed(KEY_H)) { // H for "hold"
+        // If a squadron is selected, order all planes to retreat to their carrier
+        else if(selectedSquadron != nullptr){
             selectedSquadron->SetDeploying(false);
             for (int i = 0; i < selectedSquadron->GetSquadronPlanes().size(); i++) {
                 if(selectedSquadron->GetSquadronPlanes()[i]->active)
@@ -172,7 +171,41 @@ void handleInput() {
         }
     }
 
-    if (IsKeyPressed(KEY_G)) {
+    if (IsKeyPressed(KEY_B)) { // idk why B, it seemed natural to me
+        // If a ship is selected, check if it's a carrier and select its squadron
+        if(selectedShip != nullptr){
+            Carrier* carrier = dynamic_cast<Carrier*>(selectedShip);
+            if(carrier != nullptr){
+                clearSelection();
+                selectedSquadron = carrier->GetSquadron();
+                selectedShip = nullptr; // can't have two selected objects at once
+            }
+        }
+        // If a task force is selected, look for a carrier in it and select its squadron
+        else if(selectedTaskForce != nullptr){
+            for (int i = 0; i < selectedTaskForce->ships.size(); i++) {
+                Carrier* carrier = dynamic_cast<Carrier*>(selectedTaskForce->ships[i]);
+                if(carrier != nullptr){
+                    clearSelection();
+                    selectedSquadron = carrier->GetSquadron();
+                    selectedTaskForce = nullptr;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (IsKeyPressed(KEY_K)) { // K for "kamikaze"
+        // If a squadron is selected, order all planes to go on a one-way trip
+        if(selectedSquadron != nullptr){
+            for (int i = 0; i < selectedSquadron->GetSquadronPlanes().size(); i++) {
+                selectedSquadron->GetSquadronPlanes()[i]->SetOneWayTrip();
+            }
+        }
+    }
+
+    if (IsKeyPressed(KEY_G)) { // G for "group"
+        // If multiple ships are selected, create a new task force with them
         if (!multipleSelection.empty()) {
             // Create a new task force with the selected ships
             TaskForce* taskForce = new TaskForce();
@@ -187,33 +220,13 @@ void handleInput() {
     }
 
     // if a number key is pressed, select the corresponding task force
-    if (IsKeyPressed(KEY_ONE)) {
-        selectedTaskForce = nullptr;
-        selectedSquadron = nullptr;
-        selectedShip = nullptr;
+    int key = GetKeyPressed();
+    if (key >= KEY_ONE && key <= KEY_NINE) {
+        clearSelection();
         multipleSelection.clear();
-        if (taskForces.size() > 0) {
-            selectedTaskForce = taskForces[0];
-            std::cout << "Selected task force: " << selectedTaskForce << std::endl;
-        }
-    }
-    if (IsKeyPressed(KEY_TWO)) {
-        selectedTaskForce = nullptr;
-        selectedSquadron = nullptr;
-        selectedShip = nullptr;
-        multipleSelection.clear();
-        if (taskForces.size() > 1) {
-            selectedTaskForce = taskForces[1];
-            std::cout << "Selected task force: " << selectedTaskForce << std::endl;
-        }
-    }
-    if (IsKeyPressed(KEY_THREE)) {
-        selectedTaskForce = nullptr;
-        selectedSquadron = nullptr;
-        selectedShip = nullptr;
-        multipleSelection.clear();
-        if (taskForces.size() > 2) {
-            selectedTaskForce = taskForces[2];
+        int index = key - KEY_ONE; // Starting from key one as index 0
+        if (taskForces.size() > index) {
+            selectedTaskForce = taskForces[index];
             std::cout << "Selected task force: " << selectedTaskForce << std::endl;
         }
     }

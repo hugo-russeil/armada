@@ -3,5 +3,6 @@
 
 void stagingInput();
 void handleInput();
+void clearSelection();
 
 #endif // INPUT_HPP
