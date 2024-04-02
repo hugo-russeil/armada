@@ -55,7 +55,7 @@ void Shell::Draw(){
 }
 
 bool Shell::hasHitShip(){
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < ships.size(); i++){
         if(ships[i] != nullptr){
             if(dynamic_cast<Submarine*>(ships[i]) == nullptr){ // A shell can't hit a submarine
                 if(ships[i]->isPointInside(position, camera)){

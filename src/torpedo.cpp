@@ -49,7 +49,7 @@ void Torpedo::Draw(){
 }
 
 bool Torpedo::hasHitShip() {
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < ships.size(); i++){
         if(ships[i] != nullptr){
             if(ships[i]->isPointInside(position, camera)){
                 if(ships[i] == owner){
