@@ -30,6 +30,7 @@ class Squadron {
         bool deploying = false;
 };
 
+extern std::vector<Squadron*> squadrons; // Vector of all squadrons
 extern Squadron* selectedSquadron;
 
 #endif // SQUADRON_HPP

@@ -31,14 +31,10 @@ void DrawRotatedRectangleLines(Vector2 position, Vector2 dimensions, float rotat
     }
 }
 
-void displayShipsOutlines(){
-    for(int i = 0; i < ships.size(); i++){
-        DrawRotatedRectangleLines(ships[i]->GetPosition(), ships[i]->GetDimensions(), ships[i]->GetRotation() * DEG2RAD, RED);
-    }
+void displayShipOutlines(Ship* ship){
+    DrawRotatedRectangleLines(ship->GetPosition(), ship->GetDimensions(), ship->GetRotation() * DEG2RAD, RED);
 }
 
-void displayPlanesOutlines(){
-    for(int i = 0; i < planes.size(); i++){
-        DrawRotatedRectangleLines(planes[i]->GetPosition(), planes[i]->GetDimensions(), planes[i]->GetRotation() * DEG2RAD, RED);
-    }
+void displayPlaneOutlines(Plane* plane){
+    DrawRotatedRectangleLines(plane->GetPosition(), plane->GetDimensions(), plane->GetRotation() * DEG2RAD, RED);
 }

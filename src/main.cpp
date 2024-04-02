@@ -173,8 +173,12 @@ int main() {
                         }
                         
                         if(debug){
-                            displayShipsOutlines();
-                            displayPlanesOutlines();
+                            for(shipIt = ships.begin(); shipIt != ships.end(); shipIt++){
+                                if((*shipIt)->active) displayShipOutlines(*shipIt);
+                            }
+                            for(planeIt = planes.begin(); planeIt != planes.end(); planeIt++){
+                                if((*planeIt)->active) displayPlaneOutlines(*planeIt);
+                            }
                             DrawText(("FPS: " + std::to_string(GetFPS())).c_str(), 10, 10, 20, BLACK);
                             DrawText(("Projectiles: " + std::to_string(projectiles.size())).c_str(), 10, 30, 20, BLACK);
                         }

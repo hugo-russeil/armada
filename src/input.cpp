@@ -6,11 +6,14 @@ extern "C" {
 #include "input.hpp"
 #include "debug.hpp"
 #include "ship.hpp"
+#include "taskForce.hpp"
 #include "squadron.hpp"
 #include <iostream>
 
 Ship* selectedShip = nullptr;
 Squadron* selectedSquadron = nullptr;
+TaskForce* selectedTaskForce = nullptr;
+std::vector<Ship*> multipleSelection = std::vector<Ship*>();
 
 void stagingInput() {
     Vector2 mousePosition = GetMousePosition();
@@ -56,16 +59,31 @@ void stagingInput() {
 
 void handleInput() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        selectedShip = nullptr;
-        selectedSquadron = nullptr;
+        if(!IsKeyDown(KEY_LEFT_SHIFT) && !IsKeyDown(KEY_RIGHT_SHIFT)){
+            selectedShip = nullptr;
+            multipleSelection.clear();
+            selectedSquadron = nullptr;
+            selectedTaskForce = nullptr;
+        }
         Vector2 mousePosition = GetMousePosition();
         Vector2 worldPoint;
         worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
         worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
         for (int i = 0; i < ships.size(); i++) {
             if (ships[i]->isPointInside(worldPoint, camera)) {
-                selectedShip = ships[i];
-                std::cout << "Selected ship: " << selectedShip << std::endl;
+                if (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT)) {
+                    // If Shift is held down, add the ship to the multiple selection
+                    if(selectedShip != nullptr){
+                        multipleSelection.push_back(selectedShip); // Add the previously selected ship to the multiple selection
+                        selectedShip = nullptr;
+                    }
+                    multipleSelection.push_back(ships[i]);
+                    std::cout << "Added ship to multiple selection: " << ships[i] << std::endl;
+                } else {
+                    // If Shift is not held down, select the ship normally
+                    selectedShip = ships[i];
+                    std::cout << "Selected ship: " << selectedShip << std::endl;
+                }
                 break;
             }
         }
@@ -94,6 +112,13 @@ void handleInput() {
                     break;
                 }
             }
+        }
+        if(selectedTaskForce != nullptr){
+            Vector2 mousePosition = GetMousePosition();
+            Vector2 worldPoint;
+            worldPoint.x = (mousePosition.x - camera.offset.x) / camera.zoom + camera.target.x;
+            worldPoint.y = (mousePosition.y - camera.offset.y) / camera.zoom + camera.target.y;
+            selectedTaskForce->orderMove(worldPoint);
         }
     }
 
@@ -144,6 +169,52 @@ void handleInput() {
                 if(selectedSquadron->GetSquadronPlanes()[i]->active)
                     selectedSquadron->GetSquadronPlanes()[i]->SetRetreat();
             }
+        }
+    }
+
+    if (IsKeyPressed(KEY_G)) {
+        if (!multipleSelection.empty()) {
+            // Create a new task force with the selected ships
+            TaskForce* taskForce = new TaskForce();
+            for (int i = 0; i < multipleSelection.size(); i++) {
+                taskForce->addShip(multipleSelection[i]);
+            }
+            printf("Created new task force with %d ships\n", taskForce->ships.size());
+            // Clear the multiple selection
+            multipleSelection.clear();
+            std::cout << "Created new task force: " << taskForce << std::endl;
+        }
+    }
+
+    // if a number key is pressed, select the corresponding task force
+    if (IsKeyPressed(KEY_ONE)) {
+        selectedTaskForce = nullptr;
+        selectedSquadron = nullptr;
+        selectedShip = nullptr;
+        multipleSelection.clear();
+        if (taskForces.size() > 0) {
+            selectedTaskForce = taskForces[0];
+            std::cout << "Selected task force: " << selectedTaskForce << std::endl;
+        }
+    }
+    if (IsKeyPressed(KEY_TWO)) {
+        selectedTaskForce = nullptr;
+        selectedSquadron = nullptr;
+        selectedShip = nullptr;
+        multipleSelection.clear();
+        if (taskForces.size() > 1) {
+            selectedTaskForce = taskForces[1];
+            std::cout << "Selected task force: " << selectedTaskForce << std::endl;
+        }
+    }
+    if (IsKeyPressed(KEY_THREE)) {
+        selectedTaskForce = nullptr;
+        selectedSquadron = nullptr;
+        selectedShip = nullptr;
+        multipleSelection.clear();
+        if (taskForces.size() > 2) {
+            selectedTaskForce = taskForces[2];
+            std::cout << "Selected task force: " << selectedTaskForce << std::endl;
         }
     }
 }

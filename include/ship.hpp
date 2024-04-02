@@ -5,6 +5,10 @@
 #include <vector>
 #include "raylib.h"
 
+// Libs needed by every ship, included here for convenience
+#include "debug.hpp"
+#include <algorithm>
+
 class Plane; // forward declaration
 
 class Ship {
@@ -70,5 +74,7 @@ class Ship {
 
 extern std::vector<Ship*> ships; // vector to hold all the ships
 extern Ship* selectedShip;
+
+extern std::vector<Ship*> multipleSelection; // vector to hold multiple selected ships
 
 #endif // SHIP_HPP
