@@ -26,9 +26,7 @@ Submarine::Submarine(Vector2 position, int team) : Ship(position, team) {
     this->depthChargeDamage = 0;
 }
 
-Submarine::~Submarine() {
-    
-}
+Submarine::~Submarine() = default;
 
 void Submarine::Draw() {
     if(!active) return;

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Run clang-tidy on the source files to check for errors, code smells, etc.
+clang-tidy -checks=-modernize-*,cppcoreguidelines-* -header-filter=src/.* src/*.cpp -- -Iinclude > clang-tidy.log
+
 # Call make, to make sure to be packing the latest version
 make
 

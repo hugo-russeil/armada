@@ -26,9 +26,7 @@ Carrier::Carrier(Vector2 position, int team) : Ship(position, team) {
     this->depthChargeDamage = 0;
 }
 
-Carrier::~Carrier() {
-    
-}
+Carrier::~Carrier() = default;
 
 void Carrier::Draw() {
     if(!active) return;

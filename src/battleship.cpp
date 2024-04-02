@@ -26,9 +26,7 @@ Battleship::Battleship(Vector2 position, int team) : Ship(position, team) {
     this->depthChargeDamage = 0;
 }
 
-Battleship::~Battleship() {
-    
-}
+Battleship::~Battleship() = default;
 
 void Battleship::Draw() {
     if(!active) return;

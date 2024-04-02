@@ -14,9 +14,7 @@ AAShell::AAShell(Vector2 position, Vector2 targetPosition, int damage, Ship* own
     projectiles.push_back(this);
 }
 
-AAShell::~AAShell(){
-
-}
+AAShell::~AAShell() = default;
 
 bool AAShell::Update(){
     if(active){

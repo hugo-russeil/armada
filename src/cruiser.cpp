@@ -26,9 +26,7 @@ Cruiser::Cruiser(Vector2 position, int team) : Ship(position, team) {
     this->depthChargeDamage = 0;
 }
     
-Cruiser::~Cruiser() {
-    
-}
+Cruiser::~Cruiser() = default;
 
 void Cruiser::Draw() {
     if(!active) return;

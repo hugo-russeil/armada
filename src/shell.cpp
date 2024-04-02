@@ -14,9 +14,7 @@ Shell::Shell(Vector2 position, Vector2 targetPosition, int damage, Ship* owner) 
     projectiles.push_back(this);
 }
 
-Shell::~Shell(){
-
-}
+Shell::~Shell() = default;
 
 bool Shell::Update(){
     std::cout << "Shell::Update()" << std::endl;

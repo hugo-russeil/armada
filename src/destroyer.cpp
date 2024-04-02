@@ -25,9 +25,7 @@ Destroyer::Destroyer(Vector2 position, int team) : Ship(position, team) {
     this->depthChargeDamage = 15;
 }
 
-Destroyer::~Destroyer() {
-    
-}
+Destroyer::~Destroyer() = default;
 
 void Destroyer::Draw() {
     if(!active) return;

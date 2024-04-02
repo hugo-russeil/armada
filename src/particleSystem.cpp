@@ -5,9 +5,7 @@ ParticleSystem::ParticleSystem() {
     maxLifetime = 2.0f;
 }
 
-ParticleSystem::~ParticleSystem() {
-    
-}
+ParticleSystem::~ParticleSystem() = default;
 
 void ParticleSystem::Explode(Vector2 position, int numParticles) {
     for (int i = 0; i < numParticles; i++) {

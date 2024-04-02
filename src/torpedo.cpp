@@ -11,7 +11,7 @@ Torpedo::Torpedo(Vector2 position, Vector2 targetPosition, int damage, Ship* own
     projectiles.push_back(this);
 }
 
-Torpedo::~Torpedo() {}
+Torpedo::~Torpedo() = default;
 
 bool Torpedo::Update(){
     if(active){

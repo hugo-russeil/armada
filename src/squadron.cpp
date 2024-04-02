@@ -13,9 +13,7 @@ Squadron::Squadron(Carrier* carrier) {
     carrier->SetSquadron(this);
 }
 
-Squadron::~Squadron() {
-
-}
+Squadron::~Squadron() = default;
 
 void Squadron::Deploy(Ship* target) {
     if(activePlanes != 0 || deploying) return; // Can't give the order to deploy if already deployed

@@ -14,9 +14,7 @@ Plane::Plane(Vector2 position, int team, Carrier* owner){
     planes.push_back(this);
 }
 
-Plane::~Plane(){
-
-}
+Plane::~Plane() = default;
 
 bool Plane::Update(){
     if(downed) return false; // If the plane has been shot down, it should not be updated

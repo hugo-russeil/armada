@@ -24,9 +24,7 @@ Ship::Ship(Vector2 position, int team) {
     ships.push_back(this);
 }
 
-Ship::~Ship() {
-
-}
+Ship::~Ship() = default;
 
 void Ship::Update(){
     if(!active) return;

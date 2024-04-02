@@ -12,7 +12,5 @@ Projectile::Projectile(Vector2 position, Vector2 targetPosition, int damage, Shi
     this->owner = owner;
 }
 
-Projectile::~Projectile(){
-
-}
+Projectile::~Projectile() = default;
 
