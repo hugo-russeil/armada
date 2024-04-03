@@ -28,17 +28,28 @@ void TaskForce::orderMove(Vector2 target) {
         return;
     }
 
-    // Set the target position for the first ship
-    Ship* firstShip = ships[0];
-    Vector2 originalPosition = firstShip->GetPosition();
-    firstShip->SetTargetPosition(target);
+    // Calculate the centroid of the positions of all the ships
+    Vector2 centroid = {0, 0};
+    for (Ship* ship : ships) {
+        Vector2 position = ship->GetPosition();
+        centroid.x += position.x;
+        centroid.y += position.y;
+    }
+    centroid.x /= ships.size();
+    centroid.y /= ships.size();
 
-    // Set the target position for the other ships
-    for (int i = 1; i < ships.size(); i++) {
-        Vector2 currentPos = ships[i]->GetPosition();
-        Vector2 offset = {currentPos.x - originalPosition.x, currentPos.y - originalPosition.y};
+    // Set the target position for each ship
+    for (Ship* ship : ships) {
+        Vector2 currentPos = ship->GetPosition();
+        Vector2 offset = {currentPos.x - centroid.x, currentPos.y - centroid.y};
         Vector2 newTarget = {target.x + offset.x, target.y + offset.y};
-        ships[i]->SetTargetPosition(newTarget);
+        ship->SetTargetPosition(newTarget);
+    }
+}
+
+void TaskForce::orderHold() {
+    for (Ship* ship : ships) {
+        ship->SetTargetPosition(ship->GetPosition());
     }
 }
 

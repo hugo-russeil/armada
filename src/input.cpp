@@ -40,7 +40,7 @@ void stagingInput() {
         }
     }
 
-    if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && selectedShip != nullptr) {
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && selectedShip != nullptr) {
         selectedShip->SetPosition(worldPoint);
         selectedShip->SetTargetPosition(worldPoint); // Also setting target position to prevent ships from moving back to their original position
     }
@@ -157,9 +157,7 @@ void handleInput() {
         }
         // If a task force is selected, order all ships to hold position
         else if(selectedTaskForce != nullptr){
-            for (int i = 0; i < selectedTaskForce->ships.size(); i++) {
-                selectedTaskForce->ships[i]->SetTargetPosition(selectedTaskForce->ships[i]->GetPosition());
-            }
+            selectedTaskForce->orderHold();
         }
         // If a squadron is selected, order all planes to retreat to their carrier
         else if(selectedSquadron != nullptr){
