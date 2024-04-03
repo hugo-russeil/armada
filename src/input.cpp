@@ -46,7 +46,7 @@ void stagingInput() {
     }
 
     Vector2 mouseDelta = GetMouseDelta();
-    if (IsMouseButtonDown(MOUSE_MIDDLE_BUTTON) || (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && selectedShip == nullptr)) { // Right click doesn't move the camera if dragging a ship
+    if (IsMouseButtonDown(MOUSE_MIDDLE_BUTTON) || (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) { // Right click doesn't move the camera if dragging a ship
         camera.target.x -= mouseDelta.x / camera.zoom;
         camera.target.y -= mouseDelta.y / camera.zoom;
     }
