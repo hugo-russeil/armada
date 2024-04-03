@@ -12,6 +12,7 @@ class TaskForce {
         void addShip(Ship* ship);
         void removeShip(Ship* ship);
         void orderMove(Vector2 target);
+        std::vector<Ship*> getShips();
     //private:
         std::vector<Ship*> ships;
 };
@@ -19,4 +20,4 @@ class TaskForce {
 extern std::vector<TaskForce*> taskForces; // Vector of all task forces
 extern TaskForce* selectedTaskForce;
 
-#endif
+#endif // TASKFORCE_HPP

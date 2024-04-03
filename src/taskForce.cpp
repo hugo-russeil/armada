@@ -41,3 +41,7 @@ void TaskForce::orderMove(Vector2 target) {
         ships[i]->SetTargetPosition(newTarget);
     }
 }
+
+std::vector<Ship*> TaskForce::getShips() {
+    return ships;
+}

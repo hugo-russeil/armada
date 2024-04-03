@@ -212,10 +212,9 @@ void handleInput() {
             for (int i = 0; i < multipleSelection.size(); i++) {
                 taskForce->addShip(multipleSelection[i]);
             }
-            printf("Created new task force with %d ships\n", taskForce->ships.size());
             // Clear the multiple selection
             multipleSelection.clear();
-            std::cout << "Created new task force: " << taskForce << std::endl;
+            selectedTaskForce = taskForce;
         }
     }
 

@@ -1,4 +1,5 @@
 #include "destroyer.hpp"
+#include "taskForce.hpp"
 
 Destroyer::Destroyer(Vector2 position, int team) : Ship(position, team) {
     this->sprite = LoadTexture("assets/gfx/destroyer.png");
@@ -59,9 +60,12 @@ void Destroyer::Draw() {
         DrawRectangle(drawPosition.x - barWidth/2 + currentFuelWidth, drawPosition.y + this->sprite.height - 15, lostFuelWidth, 2, fuelBarColor);
     }
 
-    // if is selected or in the multipleSelection vector
-    if(this == selectedShip || std::find(multipleSelection.begin(), multipleSelection.end(), this) != multipleSelection.end()){
+    // if is selected or in the multipleSelection vector or in the selectedTaskForce vector, draw the ship outline
+    if(this == selectedShip || 
+    std::find(multipleSelection.begin(), multipleSelection.end(), this) != multipleSelection.end() ||
+    (selectedTaskForce && std::find(selectedTaskForce->ships.begin(), selectedTaskForce->ships.end(), this) != selectedTaskForce->ships.end())){
         displayShipOutlines(this);
+        DrawLineV(this->position, this->targetPosition, YELLOW);
     }
 }
 
