@@ -181,8 +181,8 @@ void handleInput() {
         }
         // If a task force is selected, look for a carrier in it and select its squadron
         else if(selectedTaskForce != nullptr){
-            for (int i = 0; i < selectedTaskForce->ships.size(); i++) {
-                Carrier* carrier = dynamic_cast<Carrier*>(selectedTaskForce->ships[i]);
+            for (int i = 0; i < selectedTaskForce->GetShips().size(); i++) {
+                Carrier* carrier = dynamic_cast<Carrier*>(selectedTaskForce->GetShips()[i]);
                 if(carrier != nullptr){
                     clearSelection();
                     selectedSquadron = carrier->GetSquadron();

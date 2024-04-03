@@ -64,7 +64,7 @@ void Cruiser::Draw() {
     // if is selected or in the multipleSelection vector or in the selectedTaskForce vector, draw the ship outline
     if(this == selectedShip || 
     std::find(multipleSelection.begin(), multipleSelection.end(), this) != multipleSelection.end() ||
-    (selectedTaskForce && std::find(selectedTaskForce->ships.begin(), selectedTaskForce->ships.end(), this) != selectedTaskForce->ships.end())){
+    (selectedTaskForce && std::find(selectedTaskForce->GetShips().begin(), selectedTaskForce->GetShips().end(), this) != selectedTaskForce->GetShips().end())){
         displayShipOutlines(this);
         DrawLineV(this->position, this->targetPosition, YELLOW);
     }

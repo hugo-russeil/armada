@@ -13,8 +13,8 @@ class TaskForce {
         void removeShip(Ship* ship);
         void orderMove(Vector2 target);
         void orderHold();
-        std::vector<Ship*> getShips();
-    //private:
+        std::vector<Ship*>& GetShips();
+    private:
         std::vector<Ship*> ships;
 };
 

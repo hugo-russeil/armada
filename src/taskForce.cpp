@@ -53,6 +53,6 @@ void TaskForce::orderHold() {
     }
 }
 
-std::vector<Ship*> TaskForce::getShips() {
+std::vector<Ship*>& TaskForce::GetShips() {
     return ships;
 }
