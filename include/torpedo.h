@@ -1,7 +1,7 @@
 #ifndef TORPEDO_HPP
 #define TORPEDO_HPP
 
-#include "projectile.hpp"
+#include "projectile.h"
 
 class Torpedo : public Projectile {
 public:

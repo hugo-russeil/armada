@@ -1,7 +1,7 @@
 #ifndef SUBMARINE_HPP
 #define SUBMARINE_HPP
 
-#include "ship.hpp"
+#include "ship.h"
 
 class Submarine : public Ship {
 public:

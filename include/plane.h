@@ -3,8 +3,8 @@
 
 #include <vector>
 #include "raylib.h"
-#include "ship.hpp"
-#include "carrier.hpp"
+#include "ship.h"
+#include "carrier.h"
 
 class Squadron; // forward declaration
 

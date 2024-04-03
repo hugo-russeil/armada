@@ -1,4 +1,4 @@
-#include "mainMenu.hpp"
+#include "mainMenu.h"
 
 extern "C" {
     #include "raylib.h"

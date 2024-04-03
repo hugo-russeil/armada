@@ -1,8 +1,8 @@
-#include "debug.hpp"
+#include "debug.h"
 #include "raylib.h"
 #include "raymath.h"
-#include "ship.hpp"
-#include "plane.hpp"
+#include "ship.h"
+#include "plane.h"
 
 void toogleDebug() {
     debug = !debug;

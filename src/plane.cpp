@@ -1,8 +1,8 @@
-#include "plane.hpp"
+#include "plane.h"
 
 #include "camera.h"
-#include "particleSystem.hpp"
-#include "squadron.hpp"
+#include "particleSystem.h"
+#include "squadron.h"
 
 std::vector<Plane*> planes; // Vector to hold all the planes
 

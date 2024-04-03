@@ -1,7 +1,7 @@
 #ifndef CARRIER_HPP
 #define CARRIER_HPP
 
-#include "ship.hpp"
+#include "ship.h"
 
 class Squadron;
 

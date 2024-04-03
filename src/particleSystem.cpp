@@ -1,4 +1,4 @@
-#include "particleSystem.hpp"
+#include "particleSystem.h"
 
 ParticleSystem::ParticleSystem() {
     emissionRate = 1.0f;

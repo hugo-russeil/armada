@@ -1,7 +1,7 @@
-#include "torpedo.hpp"
+#include "torpedo.h"
 #include "camera.h"
 #include "raymath.h"
-#include "particleSystem.hpp"
+#include "particleSystem.h"
 
 Torpedo::Torpedo(Vector2 position, Vector2 targetPosition, int damage, Ship* owner) : Projectile(position, targetPosition, damage, owner){
     this->position = position;

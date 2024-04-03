@@ -1,5 +1,5 @@
-#include "carrier.hpp"
-#include "taskForce.hpp"
+#include "carrier.h"
+#include "taskForce.h"
 
 Carrier::Carrier(Vector2 position, int team) : Ship(position, team) {
     this->sprite = LoadTexture("assets/gfx/carrier.png");

@@ -1,5 +1,5 @@
-#include "cruiser.hpp"
-#include "taskForce.hpp"
+#include "cruiser.h"
+#include "taskForce.h"
 
 Cruiser::Cruiser(Vector2 position, int team) : Ship(position, team) {
     this->sprite = LoadTexture("assets/gfx/cruiser.png");

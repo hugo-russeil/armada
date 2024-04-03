@@ -6,7 +6,7 @@
 #include "raylib.h"
 
 // Libs needed by every ship, included here for convenience
-#include "debug.hpp"
+#include "debug.h"
 #include <algorithm>
 
 class Plane; // forward declaration

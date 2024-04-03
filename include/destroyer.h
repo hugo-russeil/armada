@@ -1,7 +1,7 @@
 #ifndef DESTROYER_HPP
 #define DESTROYER_HPP
 
-#include "ship.hpp"
+#include "ship.h"
 
 class Destroyer : public Ship {
 public:

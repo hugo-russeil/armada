@@ -1,8 +1,8 @@
-#include "aaShell.hpp"
+#include "aaShell.h"
 #include "camera.h"
-#include "plane.hpp"
+#include "plane.h"
 #include "raymath.h"
-#include "particleSystem.hpp"
+#include "particleSystem.h"
 
 #include <iostream>
 

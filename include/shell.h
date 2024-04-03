@@ -1,7 +1,7 @@
 #ifndef SHELL_HPP
 #define SHELL_HPP
 
-#include "projectile.hpp"
+#include "projectile.h"
 
 class Shell : public Projectile{
     public:

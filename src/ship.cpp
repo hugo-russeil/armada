@@ -1,15 +1,15 @@
-#include "ship.hpp"
+#include "ship.h"
 #include "camera.h"
 #include "raylib.h"
 #include "raymath.h"
 
-#include "projectile.hpp"
-#include "shell.hpp"
-#include "aaShell.hpp"
-#include "torpedo.hpp"
+#include "projectile.h"
+#include "shell.h"
+#include "aaShell.h"
+#include "torpedo.h"
 
-#include "plane.hpp"
-#include "submarine.hpp"
+#include "plane.h"
+#include "submarine.h"
 
 #include <iostream>
 

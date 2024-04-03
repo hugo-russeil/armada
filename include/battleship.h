@@ -1,7 +1,7 @@
 #ifndef BATTLESHIP_HPP
 #define BATTLESHIP_HPP
 
-#include "ship.hpp"
+#include "ship.h"
 
 class Battleship : public Ship {
 public:

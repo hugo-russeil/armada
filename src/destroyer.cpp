@@ -1,5 +1,5 @@
-#include "destroyer.hpp"
-#include "taskForce.hpp"
+#include "destroyer.h"
+#include "taskForce.h"
 
 Destroyer::Destroyer(Vector2 position, int team) : Ship(position, team) {
     this->sprite = LoadTexture("assets/gfx/destroyer.png");

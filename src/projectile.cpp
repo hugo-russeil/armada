@@ -1,7 +1,7 @@
-#include "projectile.hpp"
+#include "projectile.h"
 #include "raymath.h"
 #include "camera.h"
-#include "ship.hpp"
+#include "ship.h"
 
 std::vector<Projectile*> projectiles; // Vector to hold all the projectiles
 

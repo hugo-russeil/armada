@@ -2,7 +2,7 @@
 #define TEAM_HPP
 
 #include <vector>
-#include "ship.hpp"
+#include "ship.h"
 
 class Team {
 public:

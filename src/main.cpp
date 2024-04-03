@@ -6,23 +6,23 @@ extern "C" {
 
 #include <sstream>
 
-#include "input.hpp"
-#include "debug.hpp"
-#include "mainMenu.hpp"
-#include "particleSystem.hpp"
-#include "projectile.hpp"
-#include "team.hpp"
+#include "input.h"
+#include "debug.h"
+#include "mainMenu.h"
+#include "particleSystem.h"
+#include "projectile.h"
+#include "team.h"
 
 // Include the ship classes
-#include "carrier.hpp"
-#include "battleship.hpp"
-#include "cruiser.hpp"
-#include "destroyer.hpp"
-#include "submarine.hpp"
+#include "carrier.h"
+#include "battleship.h"
+#include "cruiser.h"
+#include "destroyer.h"
+#include "submarine.h"
 
 // Include the plane classes
-#include "plane.hpp"
-#include "squadron.hpp"
+#include "plane.h"
+#include "squadron.h"
 
 #define SEABLUE Color{0, 105, 148, 255}
 

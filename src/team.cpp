@@ -1,4 +1,4 @@
-#include "team.hpp"
+#include "team.h"
 
 Team::Team(int teamNumber, bool isPlayer) {
     this->teamNumber = teamNumber;

@@ -1,7 +1,7 @@
 #ifndef AA_SHELL_HPP
 #define AA_SHELL_HPP
 
-#include "projectile.hpp"
+#include "projectile.h"
 
 class AAShell : public Projectile{
     public:

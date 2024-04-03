@@ -1,5 +1,5 @@
-#include "battleship.hpp"
-#include "taskForce.hpp"
+#include "battleship.h"
+#include "taskForce.h"
 
 Battleship::Battleship(Vector2 position, int team) : Ship(position, team) {
     this->sprite = LoadTexture("assets/gfx/battleship.png");

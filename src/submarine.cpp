@@ -1,5 +1,5 @@
-#include "submarine.hpp"
-#include "taskForce.hpp"
+#include "submarine.h"
+#include "taskForce.h"
 
 Submarine::Submarine(Vector2 position, int team) : Ship(position, team) {
     this->sprite = LoadTexture("assets/gfx/submarine.png");

@@ -1,8 +1,8 @@
-#include "shell.hpp"
+#include "shell.h"
 #include "camera.h"
-#include "submarine.hpp"
+#include "submarine.h"
 #include "raymath.h"
-#include "particleSystem.hpp"
+#include "particleSystem.h"
 
 #include <iostream>
 

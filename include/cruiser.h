@@ -1,7 +1,7 @@
 #ifndef CRUISER_HPP
 #define CRUISER_HPP
 
-#include "ship.hpp"
+#include "ship.h"
 
 class Cruiser : public Ship {
     public:

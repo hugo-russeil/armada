@@ -1,7 +1,7 @@
 #ifndef TASKFORCE_HPP
 #define TASKFORCE_HPP
 
-#include "ship.hpp"
+#include "ship.h"
 #include <vector>
 
 class TaskForce {

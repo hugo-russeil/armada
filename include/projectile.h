@@ -1,7 +1,7 @@
 #ifndef PROJECTILE_HPP
 #define PROJECTILE_HPP
 
-#include "ship.hpp"
+#include "ship.h"
 #include "raylib.h"
 #include <vector>
 

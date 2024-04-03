@@ -1,9 +1,9 @@
 #ifndef SQUADRON_HPP
 #define SQUADRON_HPP
 
-#include "plane.hpp"
-#include "ship.hpp"
-#include "carrier.hpp"
+#include "plane.h"
+#include "ship.h"
+#include "carrier.h"
 #include "raylib.h"
 #include <vector>
 

@@ -1,4 +1,4 @@
-#include "squadron.hpp"
+#include "squadron.h"
 
 Squadron::Squadron(Carrier* carrier) {
     this->carrier = carrier;
