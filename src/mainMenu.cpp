@@ -1,8 +1,6 @@
 #include "mainMenu.h"
+#include "raylib.h"
 
-extern "C" {
-    #include "raylib.h"
-}
 
 void mainMenu() {
     BeginDrawing();

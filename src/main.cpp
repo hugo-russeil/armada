@@ -1,9 +1,3 @@
-extern "C" {
-    #include "raylib.h"
-    #include "raymath.h"
-    #include "camera.h"
-}
-
 #include <sstream>
 #include "input.h"
 #include "debug.h"
@@ -11,6 +5,9 @@ extern "C" {
 #include "particleSystem.h"
 #include "projectile.h"
 #include "team.h"
+#include "raylib.h"
+#include "raymath.h"
+#include "camera.h"
 
 // Include the ship classes
 #include "carrier.h"

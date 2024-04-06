@@ -1,7 +1,4 @@
-extern "C" {
-    #include "camera.h"
-}
-
+#include "camera.h"
 #include "raylib.h"
 #include "input.h"
 #include "debug.h"

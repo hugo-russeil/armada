@@ -1,6 +1,4 @@
-extern "C" {
-    #include "camera.h"
-}
+#include "camera.h"
 
 void setupCamera(Camera2D* camera){
     int screenWidth = GetMonitorWidth(0);
