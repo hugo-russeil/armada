@@ -1,11 +1,14 @@
 #include "squadron.h"
+#include "bomber.h"
 
-Squadron::Squadron(Carrier* carrier) {
+Squadron::Squadron(Carrier* carrier, PlaneType type) {
     this->carrier = carrier;
     this->target = nullptr;
     // Create 5 planes
     for (int i = 0; i < planeCount; i++) {
-        Plane* plane = new Plane(carrier->GetPosition(), carrier->GetTeam(), carrier);
+        Plane* plane;
+        if(type == PlaneType::BOMBER) plane = new Bomber(carrier->GetPosition(), carrier->GetTeam(), carrier);
+        else plane = new Plane(carrier->GetPosition(), carrier->GetTeam(), carrier);
         plane->active = false; // Planes are inactive until deployed
         plane->SetSquadron(this);
         squadronPlanes.push_back(plane);

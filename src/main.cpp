@@ -5,7 +5,6 @@ extern "C" {
 }
 
 #include <sstream>
-
 #include "input.h"
 #include "debug.h"
 #include "mainMenu.h"
@@ -105,8 +104,8 @@ int main() {
     Submarine* redSubmarine3 = new Submarine(Vector2{1100, 1000}, 2);
     redSubmarine3->SetRotation(180.0f);
 
-    Squadron* blueSquadron = new Squadron(blueCarrier);
-    Squadron* redSquadron = new Squadron(redCarrier);
+    Squadron* blueSquadron = new Squadron(blueCarrier, PlaneType::BOMBER);
+    Squadron* redSquadron = new Squadron(redCarrier, PlaneType::BOMBER);
 
     std::vector<Ship*>::iterator shipIt;
     std::vector<Projectile*>::iterator it;

@@ -9,7 +9,7 @@
 
 class Squadron {
     public:
-        Squadron(Carrier* carrier);
+        Squadron(Carrier* carrier, PlaneType type);
         ~Squadron();
         void Deploy(Ship* target);
         void Update();

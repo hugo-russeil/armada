@@ -1,5 +1,5 @@
-#ifndef PLANES_HPP
-#define PLANES_HPP
+#ifndef PLANE_HPP
+#define PLANE_HPP
 
 #include <vector>
 #include "raylib.h"
@@ -8,14 +8,19 @@
 
 class Squadron; // forward declaration
 
+enum class PlaneType{
+    FIGHTER,
+    BOMBER,
+    DEFAULT
+};
+
 class Plane {
 public:
     Plane(Vector2 position, int team, Carrier* owner);
     ~Plane();
-    bool Update();
+    virtual bool Update();
     void Move(float deltaTime);
     void Rotate(float deltaTime);
-    void DropBomb(Ship* target);
     void DivineWind(); // if you know, you know...
     void Draw();
     bool active = true;
@@ -35,7 +40,7 @@ public:
     void SetRetreat();
     void SetOneWayTrip();
     int GetHp();
-private:
+protected:
     Squadron* squadron;
     Texture2D sprite = LoadTexture("assets/gfx/plane.png");
     Vector2 position;
@@ -53,4 +58,4 @@ private:
 
 extern std::vector<Plane*> planes; // vector to hold all the planes
 
-#endif // PLANES_HPP
+#endif // PLANE_HPP
