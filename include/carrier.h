@@ -2,6 +2,7 @@
 #define CARRIER_HPP
 
 #include "ship.h"
+#include <vector>
 
 class Squadron;
 
@@ -11,10 +12,10 @@ class Carrier : public Ship{
         ~Carrier();
         void Draw() override;
         std::string GetClass() override;
-        Squadron* GetSquadron();
-        void SetSquadron(Squadron* squadron);
+        std::vector<Squadron*> GetSquadrons();
+        void AddSquadron(Squadron* squadron);
     private:
-        Squadron* squadron;
+        std::vector<Squadron*> squadrons;
 };
 
 #endif // CARRIER_HPP

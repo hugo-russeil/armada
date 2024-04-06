@@ -183,11 +183,10 @@ int main() {
 
                     if(selectedShip != nullptr){
                         DrawText(("Selected ship: " + selectedShip->GetClass()).c_str(), 10, 10, 20, BLACK);
-                        DrawText(("HP: " + std::to_string(selectedShip->GetHp())).c_str(), 10, 30, 20, BLACK);
                         DrawText(("Fuel: " + std::to_string(selectedShip->GetFuel())).c_str(), 10, 50, 20, BLACK);
                     }
                     if(selectedSquadron != nullptr){
-                        DrawText(("Selected squadron"), 10, 10, 20, BLACK);
+                        DrawText(("Selected" + selectedSquadron->GetType().c_str() + "squadron"), 10, 10, 20, BLACK);
                         DrawText(("Planes: " + std::to_string(selectedSquadron->GetActivePlanes())).c_str(), 10, 30, 20, BLACK);
                     }
 

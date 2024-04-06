@@ -172,7 +172,12 @@ void handleInput() {
             Carrier* carrier = dynamic_cast<Carrier*>(selectedShip);
             if(carrier != nullptr){
                 clearSelection();
-                selectedSquadron = carrier->GetSquadron();
+                for (int i = 0; i < carrier->GetSquadrons().size(); i++) {
+                    if(carrier->GetSquadrons()[i]->GetType() == PlaneType::BOMBER){
+                        selectedSquadron = carrier->GetSquadrons()[i];
+                        break;
+                    }
+                }
                 selectedShip = nullptr; // can't have two selected objects at once
             }
         }
@@ -182,7 +187,12 @@ void handleInput() {
                 Carrier* carrier = dynamic_cast<Carrier*>(selectedTaskForce->GetShips()[i]);
                 if(carrier != nullptr){
                     clearSelection();
-                    selectedSquadron = carrier->GetSquadron();
+                    for (int i = 0; i < carrier->GetSquadrons().size(); i++) {
+                        if(carrier->GetSquadrons()[i]->GetType() == PlaneType::BOMBER){
+                            selectedSquadron = carrier->GetSquadrons()[i];
+                            break;
+                        }
+                    }
                     selectedTaskForce = nullptr;
                     break;
                 }

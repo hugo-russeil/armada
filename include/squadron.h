@@ -21,11 +21,13 @@ class Squadron {
         void SetPlaneCount(int planeCount);
         void SetDeploying(bool deploying);
         std::vector<Plane*> GetSquadronPlanes();
+        PlaneType GetType();
     private:
         std::vector<Plane*> squadronPlanes;
         Carrier* carrier;
         Ship* target;
         int planeCount = 5;
+        PlaneType type;
         int activePlanes = 0;
         bool deploying = false;
 };

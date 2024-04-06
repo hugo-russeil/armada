@@ -4,6 +4,7 @@
 Squadron::Squadron(Carrier* carrier, PlaneType type) {
     this->carrier = carrier;
     this->target = nullptr;
+    this->type = type;
     // Create 5 planes
     for (int i = 0; i < planeCount; i++) {
         Plane* plane;
@@ -13,7 +14,7 @@ Squadron::Squadron(Carrier* carrier, PlaneType type) {
         plane->SetSquadron(this);
         squadronPlanes.push_back(plane);
     }
-    carrier->SetSquadron(this);
+    carrier->AddSquadron(this);
 }
 
 Squadron::~Squadron() = default;
@@ -84,4 +85,8 @@ void Squadron::SetDeploying(bool deploying) {
 
 std::vector<Plane*> Squadron::GetSquadronPlanes() {
     return squadronPlanes;
+}
+
+PlaneType Squadron::GetType() {
+    return type;
 }

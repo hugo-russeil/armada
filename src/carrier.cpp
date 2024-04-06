@@ -73,10 +73,10 @@ std::string Carrier::GetClass() {
     return "Aircraft Carrier";
 }
 
-Squadron* Carrier::GetSquadron() {
-    return this->squadron;
+std::vector<Squadron*> Carrier::GetSquadrons() {
+    return squadrons;
 }
 
-void Carrier::SetSquadron(Squadron* squadron) {
-    this->squadron = squadron;
+void Carrier::AddSquadron(Squadron* squadron) {
+    squadrons.push_back(squadron);
 }
