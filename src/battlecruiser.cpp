@@ -1,8 +1,8 @@
-#include "battleship.h"
+#include "battlecruiser.h"
 #include "taskForce.h"
 
-Battleship::Battleship(Vector2 position, int team) : Ship(position, team) {
-    this->sprite = LoadTexture("assets/gfx/battleship.png");
+Battlecruiser::Battlecruiser(Vector2 position, int team) : Ship(position, team) {
+    this->sprite = LoadTexture("assets/gfx/battlecruiser.png");
     this->dimensions = Vector2{static_cast<float>(this->sprite.width), static_cast<float>(this->sprite.height)};
     this->position = position;
     this->targetPosition = position;
@@ -27,9 +27,9 @@ Battleship::Battleship(Vector2 position, int team) : Ship(position, team) {
     this->depthChargeDamage = 0;
 }
 
-Battleship::~Battleship() = default;
+Battlecruiser::~Battlecruiser() = default;
 
-void Battleship::Draw() {
+void Battlecruiser::Draw() {
     if(!active) return;
     Vector2 drawPosition = this->position;
     Vector2 origin = { static_cast<float>(this->sprite.width) / 2.0f, static_cast<float>(this->sprite.height) / 2.0f };
@@ -69,6 +69,6 @@ void Battleship::Draw() {
     }
 }
 
-std::string Battleship::GetClass() {
-    return "Battleship";
+std::string Battlecruiser::GetClass() {
+    return "Battlecruiser";
 }

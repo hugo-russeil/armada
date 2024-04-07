@@ -3,10 +3,10 @@
 
 #include "ship.h"
 
-class Battleship : public Ship {
+class Battlecruiser : public Ship {
 public:
-    Battleship(Vector2 position, int team);
-    ~Battleship();
+    Battlecruiser(Vector2 position, int team);
+    ~Battlecruiser();
     void Draw() override;
     std::string GetClass() override;
 };
