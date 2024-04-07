@@ -2,6 +2,7 @@
 #include "camera.h"
 #include "raylib.h"
 #include "raymath.h"
+#include "debug.h"
 
 #include "projectile.h"
 #include "shell.h"
@@ -87,14 +88,52 @@ void Ship::Rotate(float deltaTime){
     }
 }
 
+bool Ship::isFriendlyInLineOfFire(Vector2 targetPosition){
+    Vector2 shooterPosition = this->GetPosition();
+
+    // Iterate over all friendly ships
+    for (Ship* ship : ships) {
+        if (ship == this || ship->GetTeam() != team || !ship->active) continue; // Skip this ship if it's the current ship, an enemy ship, or inactive
+
+        // Creating a rectangle that represents the space within which the ship is located
+        Vector2 corners[4];
+        Vector2 dimensions = ship->GetDimensions();
+        Vector2 position = ship->GetPosition();
+        float rotation = ship->GetRotation() * DEG2RAD;
+
+        corners[0] = { position.x - dimensions.x / 2, position.y - dimensions.y / 2 };
+        corners[1] = { position.x + dimensions.x / 2, position.y - dimensions.y / 2 };
+        corners[2] = { position.x + dimensions.x / 2, position.y + dimensions.y / 2 };
+        corners[3] = { position.x - dimensions.x / 2, position.y + dimensions.y / 2 };
+
+        for (int i = 0; i < 4; i++) {
+            float dx = corners[i].x - position.x;
+            float dy = corners[i].y - position.y;
+            corners[i].x = dx * cos(rotation) - dy * sin(rotation) + position.x;
+            corners[i].y = dx * sin(rotation) + dy * cos(rotation) + position.y;
+        }
+
+        // Check if the line of fire intersects with any of the sides of the rectangle
+        for (int i = 0; i < 4; i++) {
+            if (CheckCollisionLines(shooterPosition, targetPosition, corners[i], corners[(i + 1) % 4], NULL)) {
+                return true; // A friendly ship is in the line of fire
+            }
+        }
+    }
+
+    return false; // No friendly ships are in the line of fire
+}
+    
+
 void Ship::Shoot(Ship* target, Plane* airTarget){
     // Shoot deck battery
     if(hasDeckBattery && 
        dynamic_cast<Submarine*>(target) == nullptr && // A deck battery would be ineffective against a submarine (source : I said so)
-       target != nullptr){ 
+       target != nullptr
+       && target->GetHp() > 0){ 
         if(batteryCooldown > 0){
             batteryCooldown--;
-        }else{
+        }else if(!isFriendlyInLineOfFire(target->GetPosition())){ // Refrain from shooting if a friendly ship is in the line of fire
             Shell* shell = new Shell(position, target->position, deckBatteryDamage, this);
             batteryCooldown = 200;
         }
@@ -118,10 +157,10 @@ void Ship::Shoot(Ship* target, Plane* airTarget){
     }
 
     // Shoot torpedo
-    if(hasTorpedo && target != nullptr){
+    if(hasTorpedo && target != nullptr && target->GetHp() > 0){
         if(torpedoCooldown > 0){
             torpedoCooldown--;
-        }else{
+        }else if(!isFriendlyInLineOfFire(target->GetPosition())){
             Torpedo* torpedo = new Torpedo(position, target->position, torpedoDamage, this);
             torpedoCooldown = 300;
         }

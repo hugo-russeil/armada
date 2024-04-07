@@ -21,6 +21,7 @@ class Ship {
         virtual void Rotate(float deltaTime);
         virtual Ship* isEnemyNear(); // returns the nearest enemy ship
         virtual Plane* isEnemyPlaneNear(); // returns the nearest enemy plane
+        bool isFriendlyInLineOfFire(Vector2 targetPosition);
         virtual void Shoot(Ship* target, Plane* airTarget);
 
         bool isPointInside(Vector2 point, Camera2D camera);
