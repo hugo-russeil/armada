@@ -46,8 +46,10 @@ void Squadron::Update() {
     for (int i = 0; i < squadronPlanes.size(); i++) {
         squadronPlanes[i]->SetTarget(target);
         if (squadronPlanes[i]->downed) {
-            delete squadronPlanes[i];
+            Plane* downedPlane = squadronPlanes[i];
             squadronPlanes.erase(squadronPlanes.begin() + i);
+            planes.erase(std::remove(planes.begin(), planes.end(), downedPlane), planes.end());
+            delete downedPlane;
             i--; // Decrement i because the elements after i have moved down by 1
             activePlanes--; // Decrement the active planes counter
             planeCount--; // Decrement the plane count
