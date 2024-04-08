@@ -11,6 +11,7 @@
 
 // Include the ship classes
 #include "carrier.h"
+#include "battleship.h"
 #include "battlecruiser.h"
 #include "cruiser.h"
 #include "destroyer.h"
@@ -50,7 +51,9 @@ int main() {
     particleSystem = new ParticleSystem();
 
     // Team 1 (Blue)
-    Carrier* blueCarrier = new Carrier(Vector2{200, 200}, 1);
+    Carrier* blueCarrier = new Carrier(Vector2{100, 200}, 1);
+
+    Battleship* blueBattleship = new Battleship(Vector2{200, 200}, 1);
 
     Battlecruiser* blueBattlecruiser = new Battlecruiser(Vector2{300, 200}, 1);
 
@@ -71,8 +74,11 @@ int main() {
     Submarine* blueSubmarine3 = new Submarine(Vector2{1100, 200}, 1);
 
     // Team 2 (Red)
-    Carrier* redCarrier = new Carrier(Vector2{200, 1000}, 2);
+    Carrier* redCarrier = new Carrier(Vector2{100, 1000}, 2);
     redCarrier->SetRotation(180.0f);
+
+    Battleship* redBattleship = new Battleship(Vector2{200, 1000}, 2);
+    redBattleship->SetRotation(180.0f);
 
     Battlecruiser* redBattlecruiser = new Battlecruiser(Vector2{300, 1000}, 2);
     redBattlecruiser->SetRotation(180.0f);

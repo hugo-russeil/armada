@@ -1,5 +1,5 @@
-#ifndef BATTLESHIP_HPP
-#define BATTLESHIP_HPP
+#ifndef BATTLECRUISER_H
+#define BATTLECRUISER_H
 
 #include "ship.h"
 
@@ -11,4 +11,4 @@ public:
     std::string GetClass() override;
 };
 
-#endif // BATTLESHIP_HPP
+#endif // BATTLECRUISER_H
