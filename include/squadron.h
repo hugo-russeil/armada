@@ -1,5 +1,5 @@
-#ifndef SQUADRON_HPP
-#define SQUADRON_HPP
+#ifndef SQUADRON_H
+#define SQUADRON_H
 
 #include "plane.h"
 #include "ship.h"
@@ -35,4 +35,4 @@ class Squadron {
 extern std::vector<Squadron*> squadrons; // Vector of all squadrons
 extern Squadron* selectedSquadron;
 
-#endif // SQUADRON_HPP
+#endif // SQUADRON_H

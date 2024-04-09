@@ -1,5 +1,5 @@
-#ifndef PLANE_HPP
-#define PLANE_HPP
+#ifndef PLANE_H
+#define PLANE_H
 
 #include <vector>
 #include "raylib.h"
@@ -58,4 +58,4 @@ protected:
 
 extern std::vector<Plane*> planes; // vector to hold all the planes
 
-#endif // PLANE_HPP
+#endif // PLANE_H

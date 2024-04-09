@@ -1,5 +1,5 @@
-#ifndef SUBMARINE_HPP
-#define SUBMARINE_HPP
+#ifndef SUBMARINE_H
+#define SUBMARINE_H
 
 #include "ship.h"
 
@@ -11,4 +11,4 @@ public:
     std::string GetClass() override;
 };
 
-#endif // SUBMARINE_HPP
+#endif // SUBMARINE_H

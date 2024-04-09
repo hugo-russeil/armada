@@ -1,5 +1,5 @@
-#ifndef DESTROYER_HPP
-#define DESTROYER_HPP
+#ifndef DESTROYER_H
+#define DESTROYER_H
 
 #include "ship.h"
 
@@ -11,4 +11,4 @@ public:
     std::string GetClass() override;
 };
 
-#endif // DESTROYER_HPP
+#endif // DESTROYER_H

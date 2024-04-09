@@ -1,5 +1,5 @@
-#ifndef CARRIER_HPP
-#define CARRIER_HPP
+#ifndef CARRIER_H
+#define CARRIER_H
 
 #include "ship.h"
 #include <vector>
@@ -18,4 +18,4 @@ class Carrier : public Ship{
         std::vector<Squadron*> squadrons;
 };
 
-#endif // CARRIER_HPP
+#endif // CARRIER_H

@@ -1,5 +1,5 @@
-#ifndef TASKFORCE_HPP
-#define TASKFORCE_HPP
+#ifndef TASKFORCE_H
+#define TASKFORCE_H
 
 #include "ship.h"
 #include <vector>
@@ -21,4 +21,4 @@ class TaskForce {
 extern std::vector<TaskForce*> taskForces; // Vector of all task forces
 extern TaskForce* selectedTaskForce;
 
-#endif // TASKFORCE_HPP
+#endif // TASKFORCE_H

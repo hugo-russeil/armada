@@ -1,5 +1,5 @@
-#ifndef PROJECTILE_HPP
-#define PROJECTILE_HPP
+#ifndef PROJECTILE_H
+#define PROJECTILE_H
 
 #include "ship.h"
 #include "raylib.h"
@@ -25,4 +25,4 @@ class Projectile{
 extern std::vector<Projectile*> projectiles;
 extern int projectileCount;
 
-#endif // PROJECTILE_HPP
+#endif // PROJECTILE_H

@@ -1,5 +1,5 @@
-#ifndef SHELL_HPP
-#define SHELL_HPP
+#ifndef SHELL_H
+#define SHELL_H
 
 #include "projectile.h"
 
@@ -12,4 +12,4 @@ class Shell : public Projectile{
         bool hasHitShip() override;
 };
 
-#endif // SHELL_HPP
+#endif // SHELL_H

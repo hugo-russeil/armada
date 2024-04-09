@@ -1,5 +1,5 @@
-#ifndef BOBMER_HPP
-#define BOMBER_HPP
+#ifndef BOBMER_H
+#define BOMBER_H
 
 #include "plane.h"
 
@@ -11,4 +11,4 @@ public:
     void DropBomb(Ship* target);
 };
 
-#endif //BOMBER_HPP
+#endif //BOMBER_H

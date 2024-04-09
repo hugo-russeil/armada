@@ -1,5 +1,5 @@
-#ifndef DEBUG_HPP
-#define DEBUG_HPP
+#ifndef DEBUG_H
+#define DEBUG_H
 
 class Ship;
 class Plane;
@@ -10,4 +10,4 @@ void toogleDebug();
 void displayShipOutlines(Ship* ship);
 void displayPlaneOutlines(Plane* plane);
 
-#endif // DEBUG_HPP
+#endif // DEBUG_H

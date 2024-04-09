@@ -1,5 +1,5 @@
-#ifndef AA_SHELL_HPP
-#define AA_SHELL_HPP
+#ifndef AA_SHELL_H
+#define AA_SHELL_H
 
 #include "projectile.h"
 
@@ -13,4 +13,4 @@ class AAShell : public Projectile{
         bool hasHitAircraft();
 };
 
-#endif // AA_SHELL_HPP
+#endif // AA_SHELL_H

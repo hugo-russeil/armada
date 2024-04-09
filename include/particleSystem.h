@@ -1,5 +1,5 @@
-#ifndef PARTICLESYSTEM_HPP
-#define PARTICSYSTEM_HPP
+#ifndef PARTICLESYSTEM_H
+#define PARTICSYSTEM_H
 
 #include "raylib.h"
 #include "raymath.h"
@@ -29,4 +29,4 @@ public:
 
 extern ParticleSystem* particleSystem;
 
-#endif // PARTICLESYSTEM_HPP
+#endif // PARTICLESYSTEM_H

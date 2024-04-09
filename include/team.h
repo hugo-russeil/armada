@@ -1,5 +1,5 @@
-#ifndef TEAM_HPP
-#define TEAM_HPP
+#ifndef TEAM_H
+#define TEAM_H
 
 #include <vector>
 #include "ship.h"
@@ -13,4 +13,4 @@ public:
     std::vector<Ship*> TeamShips;
 };
 
-#endif // TEAM_HPP
+#endif // TEAM_H

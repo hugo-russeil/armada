@@ -1,5 +1,5 @@
-#ifndef SHIP_HPP
-#define SHIP_HPP
+#ifndef SHIP_H
+#define SHIP_H
 
 #include <string>
 #include <vector>
@@ -78,4 +78,4 @@ extern Ship* selectedShip;
 
 extern std::vector<Ship*> multipleSelection; // vector to hold multiple selected ships
 
-#endif // SHIP_HPP
+#endif // SHIP_H

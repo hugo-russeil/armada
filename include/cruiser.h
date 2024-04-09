@@ -1,5 +1,5 @@
-#ifndef CRUISER_HPP
-#define CRUISER_HPP
+#ifndef CRUISER_H
+#define CRUISER_H
 
 #include "ship.h"
 
@@ -11,4 +11,4 @@ class Cruiser : public Ship {
         std::string GetClass() override;
 };
 
-#endif // CRUISER_HPP
+#endif // CRUISER_H

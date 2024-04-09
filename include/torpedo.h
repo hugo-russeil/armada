@@ -1,5 +1,5 @@
-#ifndef TORPEDO_HPP
-#define TORPEDO_HPP
+#ifndef TORPEDO_H
+#define TORPEDO_H
 
 #include "projectile.h"
 
@@ -12,4 +12,4 @@ public:
     bool hasHitShip();
 };
 
-#endif // TORPEDO_HPP
+#endif // TORPEDO_H

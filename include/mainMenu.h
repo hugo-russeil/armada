@@ -1,6 +1,6 @@
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef MAINMENU_H
+#define MAINMENU_H
 
 void mainMenu();
 
-#endif // MAINMENU_HPP
+#endif // MAINMENU_H

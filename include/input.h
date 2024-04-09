@@ -1,8 +1,8 @@
-#ifndef INPUT_HPP
-#define INPUT_HPP
+#ifndef INPUT_H
+#define INPUT_H
 
 void stagingInput();
 void handleInput();
 void clearSelection();
 
-#endif // INPUT_HPP
+#endif // INPUT_H
